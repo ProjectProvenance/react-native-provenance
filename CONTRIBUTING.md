@@ -107,6 +107,24 @@ To publish new versions, run the following:
 yarn release
 ```
 
+#### Release candidates
+
+##### To prepare release candidates
+
+```sh
+yarn release --preRelease=beta
+```
+
+Can be `beta` or `alpha`. See [docs](https://github.com/release-it/release-it/blob/main/docs/pre-releases.md)
+
+##### To bump alpha version:
+
+After preparing and publishing pre-release can bump pre-release subversion via:
+
+```sh
+yarn release --preRelease
+```
+
 ### Scripts
 
 The `package.json` file contains various scripts for common tasks:
