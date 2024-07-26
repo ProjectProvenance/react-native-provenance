@@ -31,7 +31,7 @@ When user taps on the TrustBadge a modal will pop up displaying the Bundle. This
 
 ```typescript
 // import your UI components: ProductTitle, ProductPrice etc...
-import { TrustBadge } from "react-native-provenance";
+import { TrustBadge } from "@provenance/react-native-provenance";
 
 export function ProductPage () {
   return (
@@ -59,7 +59,7 @@ a container for the Bundle. If this is the case, check the next section.
 // import your UI components: ProductTitle, ProductPrice etc...
 // @gorhom/bottom-sheet is just an example library, you can choose any
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
-import { Bundle, TrustBadge } from "react-native-provenance";
+import { Bundle, TrustBadge } from "@provenance/react-native-provenance";
 
 export function ProductPage () {
   const [sheetShown, setSheetShown] = useState(false);
