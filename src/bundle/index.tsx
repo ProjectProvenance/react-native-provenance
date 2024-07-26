@@ -41,7 +41,6 @@ export const startingHeight = 175;
 export function Bundle({
   bundleId,
   sku,
-  colorScheme = 'light',
   onModalShown,
   onModalClosed,
   onResized,
@@ -49,29 +48,6 @@ export function Bundle({
   const [proofPointsHeight, setProofPointsHeight] =
     React.useState(startingHeight);
   const webview = React.useRef<WebView | null>(null);
-
-  // console.log('Current color scheme:', colorScheme);
-  // if (webview.current) {
-  //   console.log('Setting color scheme to:', colorScheme);
-  //   webview.current?.injectJavaScript(
-  //     `window.Provenance.setTheme(${colorScheme}); true;`
-  //   );
-  // }
-
-  // @TODO: For some reason appearance doesn't pick up color scheme changes
-  // https://reactnative.dev/docs/appearance?guide=android#addchangelistener
-  // Appearance.addChangeListener(({ colorScheme }) => {
-  //   console.log("Color scheme changed:", colorScheme);
-  //   this.webview?.injectJavaScript(`window.Provenance.setTheme(${colorScheme}); true;`);
-  // });
-
-  // setTimeout(() => {
-  //   webview.current.injectJavaScript(`window.Provenance.setTheme('dark'); true;`);
-  // }, 5000);
-
-  // setTimeout(() => {
-  //   webview.current.injectJavaScript(`window.Provenance.setTheme('light'); true;`);
-  // }, 15000);
 
   return (
     <View style={styles.webViewContainer}>
@@ -111,23 +87,6 @@ export function Bundle({
               }
             }
           }, 300);
-
-          // an API that will be defined in the app side, and only invoked here
-          window.Provenance = {
-            setTheme: (theme) => {
-              if (theme === 'dark') {
-                document.body.style.backgroundColor = '#71797E';
-              } else {
-                document.body.style.backgroundColor = 'white';
-              }
-            },
-
-            setFontSize: (fontSize) => {
-              // changes font size to respond to accessibility info
-            }
-          };
-
-          window.Provenance.setTheme(${colorScheme});
         `}
         onMessage={(event: WebViewMessageEvent) => {
           console.log('message received', event.nativeEvent.data);
