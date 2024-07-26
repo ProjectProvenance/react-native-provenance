@@ -1,6 +1,6 @@
 {
   "name": "@provenance/react-native-provenance",
-  "version": "0.0.9",
+  "version": "0.1.0-alpha.0",
   "description": "Library to add https://provenance.org experiences into your mobile applications to validate sustainability credentials of products you sell.",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -32,7 +32,7 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "clean": "del-cli lib",
-    "prepare": "bob build",
+    "prepare": "yarn lint && yarn typecheck && yarn jest && bob build",
     "release": "release-it"
   },
   "keywords": [
