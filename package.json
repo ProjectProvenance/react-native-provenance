@@ -31,8 +31,9 @@
     "test": "jest",
     "typecheck": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
+    "allchecks": "yarn lint && yarn typecheck && yarn jest",
     "clean": "del-cli lib",
-    "prepare": "yarn lint && yarn typecheck && yarn jest && bob build",
+    "prepare": "bob build",
     "release": "release-it"
   },
   "keywords": [
@@ -100,6 +101,9 @@
     ]
   },
   "release-it": {
+    "hooks": {
+      "before:init": ["yarn run allchecks"]
+    },
     "git": {
       "commitMessage": "chore: release ${version}",
       "tagName": "v${version}"
