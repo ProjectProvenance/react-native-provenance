@@ -1,5 +1,5 @@
 {
-  "name": "react-native-provenance",
+  "name": "@provenance/react-native-provenance",
   "version": "0.0.9",
   "description": "Library to add https://provenance.org experiences into your mobile applications to validate sustainability credentials of products you sell.",
   "main": "lib/commonjs/index",
