@@ -1,12 +1,17 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 
 export const height = 32;
 
 export function Tick() {
   return (
     <View style={styles.trustBadge}>
-      <View style={styles.tick} />
+      <View style={styles.tick}>
+        <Image
+          source={require('./img/checked.png')}
+          style={styles.tickImage}
+        ></Image>
+      </View>
       <View style={styles.content}>
         <Text style={styles.contentText}>Sustainability Claims</Text>
         <Text style={styles.contentProvenanceLogo}>Provenance®</Text>
@@ -52,5 +57,9 @@ const styles = StyleSheet.create({
     height: 24,
     borderRadius: 24,
     backgroundColor: '#08856C',
+  },
+  tickImage: {
+    width: 24,
+    height: 24,
   },
 });
