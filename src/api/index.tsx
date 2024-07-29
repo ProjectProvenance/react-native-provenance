@@ -4,7 +4,7 @@ const hosts = {
 };
 const path = '/webviews';
 
-let host = hosts.staging;
+let host = hosts.production;
 
 export type ApiHost = 'staging' | 'production' | string;
 
