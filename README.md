@@ -12,10 +12,16 @@ Dependencies:
 
 Steps:
 1. Make sure react-native-webview is installed: `npx expo install react-native-webview@^13.10.3`.
-2. Install the package `npm install @provenance/react-native-provenance --save`. The `--save` option is important for linking.
+2. Install the package `npm install @provenance/react-native-provenance --save`. The `--save` option is [important for autolinking](https://reactnative.dev/docs/linking-libraries-ios#automatic-linking).
 3. Run `npx expo run:android --no-build-cache` to to ensure native dependencies are linked. After this `npx expo start` works as usual.
 
 Note, despite the steps mention Expo, the expo is not necessary, vanilla react-native with `npm` or `yarn` should work as well.
+
+### Common issues
+
+#### RNCWebView module could not be found
+
+Use developers build. First, run `npx expo run:android --no-build-cache`. After the error message disappeared, you can start emulator with `npx expo run:android` and switch between the build types from Expo CLI menu.
 
 ## Usage
 
