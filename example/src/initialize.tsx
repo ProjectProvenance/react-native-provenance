@@ -1,4 +1,4 @@
-import { configure } from 'react-native-provenance';
+import { configure } from '@provenance/react-native-provenance';
 
 if (process.env.EXPO_PUBLIC_API_HOST) {
   configure({ apiHost: process.env.EXPO_PUBLIC_API_HOST });

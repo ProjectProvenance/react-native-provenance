@@ -2,7 +2,7 @@
   "compilerOptions": {
     "rootDir": ".",
     "paths": {
-      "react-native-provenance": ["./src/index"]
+      "@provenance/react-native-provenance": ["./src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,

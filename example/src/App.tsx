@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import { TrustBadge } from 'react-native-provenance';
+import { TrustBadge } from '@provenance/react-native-provenance';
 
 import { Image, Pressable } from 'react-native';
 
