@@ -15,6 +15,8 @@ Steps:
 2. Install the package `npm install @provenance/react-native-provenance --save`. The `--save` option is important for linking.
 3. Run `npx expo run:android --no-build-cache` to to ensure native dependencies are linked. After this `npx expo start` works as usual.
 
+Note, despite the steps mention Expo, the expo is not necessary, vanilla react-native with `npm` or `yarn` should work as well.
+
 ## Usage
 
 There are 2 ways how to integrate Provenance components.
@@ -28,6 +30,8 @@ retail website.
 
 This is a default method.
 When user taps on the TrustBadge a modal will pop up displaying the Bundle. This method is very easy to start with.
+
+[See demo gif](docs/assets/ModalDemo2024-07-24%20at%2013.09.56.gif)
 
 ```typescript
 // import your UI components: ProductTitle, ProductPrice etc...
@@ -54,6 +58,10 @@ You may already have established UI patterns to handle overlays, for instance, y
 a container for the Bundle. If this is the case, check the next section.
 
 ### Using Trust Badge and Bundle with your overlay
+
+This method allows you to use any overlay component that you wish but requires more configuration.
+
+[See demo gif](docs/assets/DrawerDemo2024-07-24%20at%2013.05.14.gif)
 
 ```typescript
 // import your UI components: ProductTitle, ProductPrice etc...
