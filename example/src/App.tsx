@@ -1,11 +1,13 @@
 import * as React from 'react';
 
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import { TrustBadge } from '@provenance/react-native-provenance';
+import { Pic, TrustBadge } from '@provenance/react-native-provenance';
 
 import { Image, Pressable } from 'react-native';
 
 import { designs, defaultDesign } from './initialize';
+
+const appleImage = require('../assets/organic-apple.jpg');
 
 export default function App() {
   const [currentDesign, setCurrentDesign] =
@@ -23,10 +25,7 @@ export default function App() {
 
   return (
     <View style={{ flex: 1, flexDirection: 'column' }}>
-      <Image
-        style={styles.headerImage}
-        source={require('../assets/organic-apple.jpg')}
-      />
+      <Image style={styles.headerImage} source={appleImage} />
       <View style={styles.productInfoContainer}>
         <View style={styles.titleContainer}>
           <Text style={styles.textTitle}>Organic apple</Text>
@@ -42,6 +41,7 @@ export default function App() {
         <TrustBadge bundleId={design.bundleId} sku={design.sku} />
 
         <View>
+          <Pic />
           <Text>
             Indulge in the pure essence of nature with our premium organic
             apples. Grown in lush, pesticide-free orchards, each apple is

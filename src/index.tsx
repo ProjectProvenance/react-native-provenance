@@ -1,6 +1,7 @@
 import TrustBadge from './trustBadge';
 import { Bundle } from './bundle';
 import { setHost, type ApiHost } from './api';
+import { Pic } from './Pic';
 
 type ConfigurationOptions = {
   apiHost: ApiHost;
@@ -13,4 +14,4 @@ const configure = (options: ConfigurationOptions) => {
   }
 };
 
-export { TrustBadge, Bundle, configure };
+export { TrustBadge, Bundle, configure, Pic };
