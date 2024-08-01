@@ -5,7 +5,13 @@ const exclusionList = require('metro-config/src/defaults/exclusionList');
 const pak = require('../package.json');
 
 const root = path.resolve(__dirname, '..');
-const modules = Object.keys({ ...pak.peerDependencies });
+const modules = [
+  // AssetsRegistry is used internally by React Native to handle asset imports
+  // This needs to be a singleton so all assets are registered to a single registry
+  // Reason: https://github.com/callstack/react-native-builder-bob/pull/608
+  '@react-native/assets-registry',
+  ...Object.keys({ ...pak.peerDependencies }),
+];
 
 const defaultConfig = getDefaultConfig(__dirname);
 
