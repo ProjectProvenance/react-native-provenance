@@ -5,16 +5,18 @@ export const height = 32;
 
 export function Tick() {
   return (
-    <View style={styles.trustBadge}>
-      <View style={styles.tick}>
-        <Image
-          source={require('./img/checked.png')}
-          style={styles.tickImage}
-        ></Image>
-      </View>
-      <View style={styles.content}>
-        <Text style={styles.contentText}>Sustainability Claims</Text>
-        <Text style={styles.contentProvenanceLogo}>Provenance®</Text>
+    <View style={styles.container}>
+      <View style={styles.trustBadge}>
+        <View style={styles.tick}>
+          <Image
+            source={require('./img/checked.png')}
+            style={styles.tickImage}
+          ></Image>
+        </View>
+        <View style={styles.content}>
+          <Text style={styles.contentText}>Sustainability Claims</Text>
+          <Text style={styles.contentProvenanceLogo}>Provenance®</Text>
+        </View>
       </View>
     </View>
   );
@@ -22,21 +24,28 @@ export function Tick() {
 
 // Neutral default
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    minWidth: 179,
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+  },
   trustBadge: {
-    width: 179,
-    height: height,
+    width: 'auto',
     borderRadius: 18,
     paddingHorizontal: 4,
     paddingVertical: 0,
     backgroundColor: '#EDEDED',
+    flexBasis: height,
+    justifyContent: 'flex-start',
     flexDirection: 'row',
     alignItems: 'center',
   },
   content: {
     marginLeft: 4,
+    marginRight: 8,
     marginVertical: 1.5,
-    height: 27,
-    width: 123,
   },
   contentText: {
     //fontFamily: 'DM Sans',
