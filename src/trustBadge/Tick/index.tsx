@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 
+const maxFontSizeMultiplier = 1.35;
 export const height = 32;
 
 export function Tick() {
@@ -14,8 +15,18 @@ export function Tick() {
           ></Image>
         </View>
         <View style={styles.content}>
-          <Text style={styles.contentText}>Sustainability Claims</Text>
-          <Text style={styles.contentProvenanceLogo}>Provenance®</Text>
+          <Text
+            style={styles.contentText}
+            maxFontSizeMultiplier={maxFontSizeMultiplier}
+          >
+            Sustainability Claims
+          </Text>
+          <Text
+            style={styles.contentProvenanceLogo}
+            maxFontSizeMultiplier={maxFontSizeMultiplier}
+          >
+            Provenance®
+          </Text>
         </View>
       </View>
     </View>
