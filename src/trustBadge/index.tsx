@@ -10,7 +10,7 @@ import {
   Easing,
 } from 'react-native';
 import { Tick, height as trustBadgeHeight } from './Tick';
-import { Bundle, startingHeight as bundleStartingHeight } from '../bundle';
+import { Bundle, loadingHeight as bundleLoadingHeight } from '../bundle';
 
 type TrustBadgeProps = {
   bundleId: string;
@@ -30,7 +30,7 @@ export default function TrustBadge({
   // get theme info
   const colorScheme = useColorScheme() ?? 'light';
   const [containerHeight, setContainerHeight] =
-    React.useState(bundleStartingHeight);
+    React.useState(bundleLoadingHeight);
   const toggleBundle = () => {
     setShowWebview(!showWebview);
   };
@@ -93,7 +93,7 @@ export default function TrustBadge({
 
 const styles = StyleSheet.create({
   modalContainer: {
-    height: bundleStartingHeight,
+    height: bundleLoadingHeight,
     borderTopWidth: 1,
     borderColor: '#EDEDED',
     shadowColor: '#000',
