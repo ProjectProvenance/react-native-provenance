@@ -73,11 +73,11 @@ This method allows you to use any overlay component that you wish but requires m
 // import your UI components: ProductTitle, ProductPrice etc...
 // @gorhom/bottom-sheet is just an example library, you can choose any
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
-import { Bundle, TrustBadge } from "@provenance/react-native-provenance";
+import { Bundle, TrustBadge, getBundleLoadingHeight } from "@provenance/react-native-provenance";
 
 export function ProductPage () {
   const [sheetShown, setSheetShown] = useState(false);
-  const [bundleContainerHeight, setBundleContainerHeight] = useState(175);
+  const [bundleContainerHeight, setBundleContainerHeight] = useState(getBundleLoadingHeight());
   const bottomSheetRef = useRef<BottomSheet>(null);
 
   const handleSheetChanges = useCallback(
@@ -134,6 +134,39 @@ export function ProductPage () {
     </View>
   );
 }
+```
+
+#### getBundleLoadingHeight
+
+`getBundleLoadingHeight` - returns a number representing height of the Bundle element while it is loading.
+
+We don't know what the height of the Bundle will be in advance because it depends on the exact variant of the bundle ( cards vs capsules ), amount of proof points for the given product, width of the screen. Since the loading of the bundle may take some time ( network dependent ) we need to give feedback to the user that something is loading. For that the webview is opened to bundle loading height so that the user sees the loading state within it.
+
+You can use the value returned by this function to set default size for your overlay component.
+
+#### onResized callback
+
+After Bundle finishes loading the `onResized` callback is called with the actual height as an argument.
+
+This callback is also called when Proof Point Details Modal is shown. This happens after user taps on a Proof Point and its details finished loading.
+
+You should pass your function to `onResized` prop. It should take the `height` argument and adjust your overlay component so that Bundle have enough space to display the content.
+
+#### What if I need to add marging around the bundle?
+
+Just add it to the `getBundleLoadingHeight` and `height` in `onResized` callback. Let's say you want to have more space
+between head of your BottomSheet and from the bottom of the screen. You could do something like:
+
+```
+  const verticalMargin = 20;
+  const [bundleContainerHeight, setBundleContainerHeight] = useState(getBundleLoadingHeight() + verticalMargin);
+
+  // . . .
+  <Bundle
+    onResized={(newSize: number) => {
+      setBundleContainerHeight(newSize + verticalMargin);
+      bottomSheetRef.current?.snapToPosition(newSize + verticalMargin);
+    }}
 ```
 
 ## Contributing

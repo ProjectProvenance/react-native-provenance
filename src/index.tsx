@@ -1,5 +1,5 @@
 import TrustBadge from './trustBadge';
-import { Bundle } from './bundle';
+import { Bundle, loadingHeight, minModalHeight } from './bundle';
 import { setHost, type ApiHost } from './api';
 
 type ConfigurationOptions = {
@@ -13,4 +13,14 @@ const configure = (options: ConfigurationOptions) => {
   }
 };
 
-export { TrustBadge, Bundle, configure };
+// Clien could adjust container element height accordingly
+const getBundleLoadingHeight = () => loadingHeight;
+const getMinProofPointModalHeight = () => minModalHeight;
+
+export {
+  TrustBadge,
+  Bundle,
+  getBundleLoadingHeight,
+  getMinProofPointModalHeight,
+  configure,
+};

@@ -34,9 +34,10 @@ type BundleProps = {
   onModalClosed?: Callback;
   onResized?: onResizedCallback;
 };
-const modalHeight = 540;
 
-export const startingHeight = 175;
+export const minModalHeight = 540;
+
+export const loadingHeight = 175;
 
 export function Bundle({
   bundleId,
@@ -46,7 +47,7 @@ export function Bundle({
   onResized,
 }: BundleProps) {
   const [proofPointsHeight, setProofPointsHeight] =
-    React.useState(startingHeight);
+    React.useState(loadingHeight);
   const webview = React.useRef<WebView | null>(null);
 
   return (
@@ -92,7 +93,7 @@ export function Bundle({
           console.log('message received', event.nativeEvent.data);
           const message = event.nativeEvent.data;
           if (message === 'modalShown') {
-            if (onResized) onResized(modalHeight);
+            if (onResized) onResized(minModalHeight);
             if (onModalShown) onModalShown();
           }
 
