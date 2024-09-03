@@ -39,7 +39,11 @@ export default function App() {
           </Pressable>
         </View>
 
-        <TrustBadge bundleId={design.bundleId} sku={design.sku} />
+        <TrustBadge
+          bundleId={design.bundleId}
+          sku={design.sku}
+          overlayHeight={'80%'}
+        />
 
         <View>
           <Text>
