@@ -8,15 +8,21 @@ import {
   useColorScheme,
   Animated,
   Easing,
+  useWindowDimensions,
 } from 'react-native';
 import { Tick, height as trustBadgeHeight } from './Tick';
-import { Bundle, loadingHeight as bundleLoadingHeight } from '../bundle';
+import {
+  Bundle,
+  loadingHeight as bundleLoadingHeight,
+  minModalHeight,
+} from '../bundle';
 
 type TrustBadgeProps = {
   bundleId: string;
   sku: string;
   onPress?: () => void;
   overlay?: boolean; // when false no default modal will be used, instead Client app needs to instantiate Bundle directly
+  overlayHeight?: number | string; // when provided this height will be used to set overlay height when ProofPoint details modal is shown. Should be above 530
 };
 
 export default function TrustBadge({
@@ -24,8 +30,26 @@ export default function TrustBadge({
   sku,
   onPress,
   overlay = true,
+  overlayHeight,
 }: TrustBadgeProps) {
   const [showWebview, setShowWebview] = React.useState(false);
+  const { height } = useWindowDimensions();
+
+  if (typeof overlayHeight == 'string') {
+    if (!overlayHeight.match(/\d{1,3}%/))
+      throw new Error(
+        `overlayHeight value is invalid. It should be correct percentage value`
+      );
+
+    overlayHeight =
+      (parseInt(overlayHeight.replace('%', ''), 10) / 100) * height;
+  }
+
+  if (overlayHeight && overlayHeight <= minModalHeight) {
+    throw new Error(
+      `The current value: ${overlayHeight} of overlayHeight is invalid. It should be bigger than ${minModalHeight}`
+    );
+  }
 
   // get theme info
   const colorScheme = useColorScheme() ?? 'light';
@@ -79,6 +103,9 @@ export default function TrustBadge({
                     bundleId={bundleId}
                     sku={sku}
                     onResized={(newSize: number) => setContainerHeight(newSize)}
+                    onModalShown={() =>
+                      overlayHeight && setContainerHeight(overlayHeight)
+                    }
                     colorScheme={colorScheme}
                   />
                 )}

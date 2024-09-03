@@ -60,6 +60,8 @@ export function ProductPage () {
 }
 ```
 
+You may provide `overlayHeight={'80%'}` prop it defines the height of the overlay when Proof Point detail is revealed. The supported values are percentage or number.
+
 You may already have established UI patterns to handle overlays, for instance, your modal component or some `BottomSheet` library that you want to use as
 a container for the Bundle. If this is the case, check the next section.
 
