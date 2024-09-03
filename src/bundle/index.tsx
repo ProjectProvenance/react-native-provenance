@@ -65,11 +65,16 @@ export function Bundle({
         injectedJavaScript={`
           window.ReactNativeWebView.postMessage("JS injected");
 
+          const selectors = {
+            modal: '#provenance-modal',
+            bundleContainer: '.EmbedWrapper'
+          };
+
           let modalShown = false;
           let prevBundleSize = 0;
 
           setInterval(() => {
-            const modalElement = document.querySelector('#provenance-modal');
+            const modalElement = document.querySelector(selectors.modal);
             if (modalElement && modalElement.dataset.state !== 'drawer-closed') {
               if (!modalShown) {
                 modalShown = true;
@@ -80,7 +85,7 @@ export function Bundle({
                 modalShown = false;
                 window.ReactNativeWebView.postMessage("modalClosed");
               } else {
-                const bundleContainerElement = document.querySelector('provenance-bundle > div');
+                const bundleContainerElement = document.querySelector(selectors.bundleContainer);
                 if (bundleContainerElement && bundleContainerElement.clientHeight > 0 && prevBundleSize != bundleContainerElement.clientHeight) {
                   prevBundleSize = bundleContainerElement.clientHeight;
                   window.ReactNativeWebView.postMessage("bundleResized: " + bundleContainerElement.clientHeight);
@@ -107,7 +112,7 @@ export function Bundle({
             message.startsWith('bundleResized') &&
             (newBundleSize = message.split(': ')[1])
           ) {
-            const newHeight = parseInt(newBundleSize, 10) + 20;
+            const newHeight = parseInt(newBundleSize, 10);
             setProofPointsHeight(newHeight);
             if (onResized) onResized(newHeight);
           }
