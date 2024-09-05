@@ -8,12 +8,31 @@ has sustainability claims. Buyers can click on it to further see details in the 
 ## Installation
 
 Dependencies:
-* `react-native-webview` should be installed to your application first. Make sure it matches the version specified in the package.json of this package.
+
+`react-native-webview` should be installed to your application first. Make sure it matches the version specified in the package.json of this package.
 
 Steps:
-1. Make sure react-native-webview is installed: `npx expo install react-native-webview@^13.10.3`.
-2. Install the package `npm install @provenance/react-native-provenance --save`. The `--save` option is [important for autolinking](https://reactnative.dev/docs/linking-libraries-ios#automatic-linking).
-3. Run `npx expo run:android --no-build-cache` to to ensure native dependencies are linked. After this `npx expo start` works as usual.
+
+1. Make sure `react-native-webview` is installed:
+```
+npx expo install react-native-webview@^13.10.3
+```
+2. Install the package:
+```
+npm install @provenance/react-native-provenance --save
+```
+The `--save` option is [important for autolinking](https://reactnative.dev/docs/linking-libraries-ios#automatic-linking).
+
+3. Run:
+```
+npx expo run:android --no-build-cache
+```
+to ensure native dependencies are linked.
+
+4. Run the app using:
+```
+npx expo start
+```
 
 Note, despite the steps mention Expo, the expo is not necessary, vanilla react-native with `npm` or `yarn` should work as well.
 
@@ -21,16 +40,25 @@ Note, despite the steps mention Expo, the expo is not necessary, vanilla react-n
 
 #### RNCWebView module could not be found
 
-Use developers build. First, run `npx expo run:android --no-build-cache`. After the error message disappeared, you can start emulator with `npx expo run:android` and switch between the build types from Expo CLI menu.
+Use developers build. First, run:
+```
+npx expo run:android --no-build-cache
+```
+
+After the error message disappears, you can start emulator with:
+```
+npx expo run:android
+```
+and switch between the build types from Expo CLI menu.
 
 ## Usage
 
-There are 2 ways how to integrate Provenance components.
+There are 2 ways how to integrate Provenance components:
+
 * The easiest one: by using our built in modal
 * Allows more customizations: by using Trust Badge and Bundle separately
 
-In both cases you will need `bundleId` and `productSku` - use the same values you may already received from our support team or from your
-retail website.
+In both cases you will need `bundleId` and `productSku` - use the same values you may already received from our support team or from your retail website.
 
 ### Using our built in modal
 
@@ -60,8 +88,7 @@ export function ProductPage () {
 }
 ```
 
-You may already have established UI patterns to handle overlays, for instance, your modal component or some `BottomSheet` library that you want to use as
-a container for the Bundle. If this is the case, check the next section.
+You may already have established UI patterns to handle overlays, for instance, your modal component or some `BottomSheet` library that you want to use as a container for the Bundle. If this is the case, check the next section.
 
 ### Using Trust Badge and Bundle with your overlay
 
@@ -140,7 +167,7 @@ export function ProductPage () {
 
 `getBundleLoadingHeight` - returns a number representing height of the Bundle element while it is loading.
 
-We don't know what the height of the Bundle will be in advance because it depends on the exact variant of the bundle ( cards vs capsules ), amount of proof points for the given product, width of the screen. Since the loading of the bundle may take some time ( network dependent ) we need to give feedback to the user that something is loading. For that the webview is opened to bundle loading height so that the user sees the loading state within it.
+We don't know what the height of the Bundle will be in advance because it depends on the exact variant of the bundle (cards vs capsules), amount of Proof Points for the given product, width of the screen. Since the loading of the bundle may take some time (network dependent) we need to give feedback to the user that something is loading. For that the webview is opened to bundle loading height so that the user sees the loading state within it.
 
 You can use the value returned by this function to set default size for your overlay component.
 
@@ -154,10 +181,9 @@ You should pass your function to `onResized` prop. It should take the `height` a
 
 #### What if I need to add marging around the bundle?
 
-Just add it to the `getBundleLoadingHeight` and `height` in `onResized` callback. Let's say you want to have more space
-between head of your BottomSheet and from the bottom of the screen. You could do something like:
+Just add it to the `getBundleLoadingHeight` and `height` in `onResized` callback. Let's say you want to have more space between head of your BottomSheet and from the bottom of the screen. You could do something like:
 
-```
+```typescript
   const verticalMargin = 20;
   const [bundleContainerHeight, setBundleContainerHeight] = useState(getBundleLoadingHeight() + verticalMargin);
 
@@ -173,9 +199,6 @@ between head of your BottomSheet and from the bottom of the screen. You could do
 
 See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
 
-## License
-
-MIT
 
 ---
 
