@@ -171,6 +171,24 @@ between head of your BottomSheet and from the bottom of the screen. You could do
     }}
 ```
 
+#### I want ProofPoints details modal to take more height
+
+`Bundle` component takes whole available space of the container. So if you want to let your users scroll less you could make your Overlay component taller when modal opened. For example:
+
+```
+  <Bundle
+    bundleId={design.bundleId}
+    sku={design.sku}
+    onResized={(newSize: number) => {
+      // we still need this callback to make sure the container has enough of space to display Bundle
+      setBundleContainerHeight(newSize);
+      bottomSheetRef.current?.snapToPosition(newSize);
+    }}
+    // Add this callback which will be invoked after ProofPoint details modal shown. Give as much space as you like.
+    onModalShown={() => bottomSheetRef.current?.snapToPosition('85%') }
+  />
+```
+
 ## Contributing
 
 See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
