@@ -1,27 +1,29 @@
 import React from 'react';
 import { View, StyleSheet, Image } from 'react-native';
 
-export function Status() {
+export function Status({ size = 24 }: { size?: number }) {
+  const sizeProps = ofSize(size);
+  const tick = StyleSheet.compose(styles.tick, sizeProps);
+
   return (
-    <View style={styles.tick}>
-      <Image
-        source={require('./img/checked.png')}
-        style={styles.tickImage}
-      ></Image>
+    <View style={tick}>
+      <Image source={require('./img/checked.png')} style={sizeProps} />
     </View>
   );
 }
 
+function ofSize(size: number) {
+  return {
+    width: size,
+    height: size,
+    borderRadius: size / 2,
+  };
+}
+
+const defaultSize = ofSize(24);
 const styles = StyleSheet.create({
   tick: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
     backgroundColor: '#08856C',
-  },
-  tickImage: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
+    ...defaultSize,
   },
 });

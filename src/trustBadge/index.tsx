@@ -16,6 +16,7 @@ import {
   loadingHeight as bundleLoadingHeight,
   minModalHeight,
 } from '../bundle';
+import { ProofPoint } from './ProofPoint';
 
 type TrustBadgeProps = {
   bundleId: string;
@@ -23,7 +24,10 @@ type TrustBadgeProps = {
   onPress?: () => void;
   overlay?: boolean; // when false no default modal will be used, instead Client app needs to instantiate Bundle directly
   overlayHeight?: number | string; // when provided this height will be used to set overlay height when ProofPoint details modal is shown. Should be above 530
+  variant?: string;
 };
+
+const supportedVariants = ['Tick', 'ProofPoint'];
 
 export default function TrustBadge({
   bundleId,
@@ -31,11 +35,12 @@ export default function TrustBadge({
   onPress,
   overlay = true,
   overlayHeight,
+  variant = 'Tick',
 }: TrustBadgeProps) {
   const [showWebview, setShowWebview] = React.useState(false);
   const { height } = useWindowDimensions();
 
-  if (typeof overlayHeight == 'string') {
+  if (typeof overlayHeight === 'string') {
     if (!overlayHeight.match(/\d{1,3}%/))
       throw new Error(
         `overlayHeight value is invalid. It should be correct percentage value`
@@ -50,6 +55,11 @@ export default function TrustBadge({
       `The current value: ${overlayHeight} of overlayHeight is invalid. It should be bigger than ${minModalHeight}`
     );
   }
+
+  if (!supportedVariants.includes(variant))
+    throw new Error(
+      `Trust badge variant "${variant}" is invalid. Please pass one of ${supportedVariants.join(',')}`
+    );
 
   // get theme info
   const colorScheme = useColorScheme() ?? 'light';
@@ -83,7 +93,7 @@ export default function TrustBadge({
     <View style={{ height: trustBadgeHeight }}>
       <View style={{ flex: 1 }}>
         <TouchableOpacity onPress={handleTrustBadgePress}>
-          <Tick />
+          {variant === 'Tick' ? <Tick /> : <ProofPoint />}
         </TouchableOpacity>
 
         {overlay && (
