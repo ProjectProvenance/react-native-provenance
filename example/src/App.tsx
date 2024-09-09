@@ -1,16 +1,24 @@
 import * as React from 'react';
 
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import { TrustBadge } from '@provenance/react-native-provenance';
 
 import { Image, Pressable } from 'react-native';
 
 import { designs, defaultDesign } from './initialize';
+import { OptionsSwitch } from './OptionsSwitch';
+
+const variants = {
+  Tick: 0,
+  ProofPoint: 0,
+};
 
 export default function App() {
   const [currentDesign, setCurrentDesign] =
     React.useState<string>(defaultDesign);
   const design = designs[currentDesign];
+
+  const [currentVariant, setCurrentVariant] = React.useState<string>('Tick');
 
   if (!design) {
     return (
@@ -22,7 +30,7 @@ export default function App() {
   }
 
   return (
-    <View style={{ flex: 1, flexDirection: 'column' }}>
+    <View style={styles.container}>
       <Image
         style={styles.headerImage}
         source={require('../assets/organic-apple.jpg')}
@@ -43,6 +51,7 @@ export default function App() {
           bundleId={design.bundleId}
           sku={design.sku}
           overlayHeight={'80%'}
+          variant={currentVariant}
         />
 
         <View>
@@ -59,24 +68,22 @@ export default function App() {
           </Text>
         </View>
       </View>
+
       <View style={styles.controlsContainer}>
         <View style={styles.controls}>
-          <Text style={styles.controlsText}>Bundle design:</Text>
-          {Object.keys(designs).map((key: string) => {
-            return (
-              <TouchableOpacity onPress={() => setCurrentDesign(key)} key={key}>
-                <Text
-                  style={{
-                    ...styles.controlsText,
-                    ...styles.controlsSwitcher,
-                    fontWeight: key === currentDesign ? 'bold' : '400',
-                  }}
-                >
-                  {key}
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
+          <OptionsSwitch
+            label={'Bundle design'}
+            options={designs}
+            currentOption={currentDesign}
+            onChosen={setCurrentDesign}
+          />
+
+          <OptionsSwitch
+            label={'Variant'}
+            options={variants}
+            currentOption={currentVariant}
+            onChosen={setCurrentVariant}
+          />
         </View>
       </View>
     </View>
@@ -84,6 +91,10 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+  },
   headerImage: {
     width: '100%',
     height: 300,
@@ -138,18 +149,5 @@ const styles = StyleSheet.create({
     padding: 20,
     borderTopColor: 'lightgray',
     borderTopWidth: 1,
-  },
-  controlsText: {
-    color: 'lightgray',
-  },
-  controlsSwitcher: {
-    borderWidth: 1,
-    borderRadius: 4,
-    borderColor: 'lightgray',
-    color: 'white',
-    backgroundColor: 'lightgray',
-    paddingVertical: 1,
-    paddingHorizontal: 4,
-    marginStart: 4,
   },
 });

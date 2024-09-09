@@ -5,11 +5,10 @@ import { Statement } from '../Statement';
 
 export const height = capsuleHeight;
 
-export function Tick() {
+export function ProofPoint() {
   return (
     <Capsule>
-      <Status />
-      <Statement />
+      <Statement beforeCompanyName={<Status size={12} />} />
     </Capsule>
   );
 }
