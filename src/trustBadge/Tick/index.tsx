@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import { Status } from '../Status';
 
 const maxFontSizeMultiplier = 1.35;
 export const height = 32;
@@ -8,12 +9,7 @@ export function Tick() {
   return (
     <View style={styles.container}>
       <View style={styles.trustBadge}>
-        <View style={styles.tick}>
-          <Image
-            source={require('./img/checked.png')}
-            style={styles.tickImage}
-          ></Image>
-        </View>
+        <Status />
         <View style={styles.content}>
           <Text
             style={styles.contentText}
@@ -71,16 +67,5 @@ const styles = StyleSheet.create({
     fontSize: 8,
     color: '#686868',
     letterSpacing: 3,
-  },
-  tick: {
-    width: 24,
-    height: 24,
-    borderRadius: 24,
-    backgroundColor: '#08856C',
-  },
-  tickImage: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
   },
 });
