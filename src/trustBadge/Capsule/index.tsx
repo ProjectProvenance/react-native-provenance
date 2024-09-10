@@ -1,12 +1,23 @@
 import React, { type FC, type ReactNode } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-export const height = 32;
+// @FIXME: Should be 32 but, it starts cutting off second line on larger font sizes. Prioritizing accesibility for now
+export const defaultHeight = 32;
 
-export const Capsule: FC<{ children: ReactNode }> = ({ children }) => {
+export const Capsule: FC<{ children: ReactNode; height?: number }> = ({
+  children,
+  height = defaultHeight,
+}) => {
   return (
     <View style={styles.container}>
-      <View style={styles.trustBadge}>{children}</View>
+      <View
+        style={StyleSheet.compose(styles.trustBadge, {
+          flexBasis: height,
+          borderRadius: height / 2,
+        })}
+      >
+        {children}
+      </View>
     </View>
   );
 };
@@ -22,12 +33,12 @@ const styles = StyleSheet.create({
   },
   trustBadge: {
     width: 'auto',
-    borderRadius: 18,
+    borderRadius: defaultHeight / 2,
     paddingHorizontal: 4,
     paddingVertical: 0,
     backgroundColor: '#EDEDED',
-    flexBasis: height,
-    justifyContent: 'flex-start',
+    flexBasis: defaultHeight,
+    justifyContent: 'center',
     flexDirection: 'row',
     alignItems: 'center',
   },

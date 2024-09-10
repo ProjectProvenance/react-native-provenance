@@ -1,14 +1,20 @@
 import React from 'react';
 import { Status } from '../Status';
-import { Capsule, height as capsuleHeight } from '../Capsule';
+import { Capsule } from '../Capsule';
 import { Statement } from '../Statement';
+import { ClaimsList } from '../ClaimsList';
 
-export const height = capsuleHeight;
+const height = 36;
 
-export function ProofPoint() {
+const ProofPoint = () => {
   return (
-    <Capsule>
+    <Capsule height={height}>
+      <ClaimsList />
       <Statement beforeCompanyName={<Status size={12} />} />
     </Capsule>
   );
-}
+};
+
+ProofPoint.getHeight = () => height;
+
+export { ProofPoint };

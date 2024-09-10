@@ -46,7 +46,11 @@ const StatementText: FC<{
   style?: StyleProp<TextStyle>;
 }> = ({ children, style }) => {
   return (
-    <Text maxFontSizeMultiplier={maxFontSizeMultiplier} style={style}>
+    <Text
+      maxFontSizeMultiplier={maxFontSizeMultiplier}
+      allowFontScaling={false}
+      style={style}
+    >
       {children}
     </Text>
   );
@@ -56,11 +60,12 @@ const styles = StyleSheet.create({
   content: {
     marginLeft: 4,
     marginRight: 8,
-    marginVertical: 1.5,
+    marginVertical: 2.5,
   },
   contentText: {
     //fontFamily: 'DM Sans',
-    fontSize: 12,
+    // @FIXME: Should be 12, but then it's too small
+    fontSize: 14,
     fontWeight: '700',
     lineHeight: 15,
     textAlign: 'left',
@@ -74,7 +79,8 @@ const styles = StyleSheet.create({
   },
   contentProvenanceLogo: {
     textTransform: 'uppercase',
-    fontSize: 8,
+    // @FIXME: Should be 8
+    fontSize: 9,
     color: '#686868',
     letterSpacing: 3,
   },
