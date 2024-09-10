@@ -10,7 +10,7 @@ import {
   Easing,
   useWindowDimensions,
 } from 'react-native';
-import { Tick, height as trustBadgeHeight } from './Tick';
+import { Tick } from './Tick';
 import {
   Bundle,
   loadingHeight as bundleLoadingHeight,
@@ -89,8 +89,11 @@ export default function TrustBadge({
     }
   }, [growAnim, containerHeight, showWebview]);
 
+  const trustBadgeHeight =
+    variant === 'Tick' ? Tick.getHeight() : ProofPoint.getHeight();
+
   return (
-    <View style={{ height: trustBadgeHeight }}>
+    <View style={{ flexBasis: trustBadgeHeight }}>
       <View style={{ flex: 1 }}>
         <TouchableOpacity onPress={handleTrustBadgePress}>
           {variant === 'Tick' ? <Tick /> : <ProofPoint />}
