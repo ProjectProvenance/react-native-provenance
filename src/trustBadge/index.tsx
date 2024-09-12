@@ -17,6 +17,8 @@ import {
   minModalHeight,
 } from '../bundle';
 import { ProofPoint } from './ProofPoint';
+import { useOffers } from '../hooks/useOffers';
+import { getClaimIcons } from '../utils';
 
 type TrustBadgeProps = {
   bundleId: string;
@@ -61,6 +63,8 @@ export default function TrustBadge({
       `Trust badge variant "${variant}" is invalid. Please pass one of ${supportedVariants.join(',')}`
     );
 
+  const { offers } = useOffers(sku);
+
   // get theme info
   const colorScheme = useColorScheme() ?? 'light';
   const [containerHeight, setContainerHeight] =
@@ -96,7 +100,11 @@ export default function TrustBadge({
     <View style={{ flexBasis: trustBadgeHeight }}>
       <View style={{ flex: 1 }}>
         <TouchableOpacity onPress={handleTrustBadgePress}>
-          {variant === 'Tick' ? <Tick /> : <ProofPoint />}
+          {variant === 'Tick' ? (
+            <Tick />
+          ) : (
+            <ProofPoint claimIcons={getClaimIcons(offers)} />
+          )}
         </TouchableOpacity>
 
         {overlay && (
