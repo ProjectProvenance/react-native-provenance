@@ -1,9 +1,10 @@
 import TrustBadge from './trustBadge';
 import { Bundle, loadingHeight, minModalHeight } from './bundle';
-import { setHost, type ApiHost } from './api';
+import { setHost, setApiKey, type ApiHost } from './api';
 
 type ConfigurationOptions = {
-  apiHost: ApiHost;
+  apiHost?: ApiHost;
+  key: string;
 };
 
 const configure = (options: ConfigurationOptions) => {
@@ -11,6 +12,8 @@ const configure = (options: ConfigurationOptions) => {
     console.log('Setting host to:', options.apiHost);
     setHost(options.apiHost);
   }
+
+  setApiKey(options.key);
 };
 
 // Clien could adjust container element height accordingly
