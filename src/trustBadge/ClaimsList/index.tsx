@@ -30,11 +30,14 @@ export function ClaimsList({ claimsIcons }: ClaimsListProps) {
   const iconsToShow = showableIcons.slice(0, maxIconsToShow);
   const iconsNotShown = claimsIcons.length - iconsToShow.length;
 
+  let width = iconSize;
   let placesToShow = 0;
   if (iconsNotShown > 0) placesToShow++;
   if (iconsToShow.length === 0) placesToShow++;
   placesToShow = Math.min(3, placesToShow + iconsToShow.length);
-  let width = Math.max((iconSize - iconOverlap) * placesToShow, iconSize);
+  if (placesToShow > 1) {
+    width = iconSize + (iconSize - iconOverlap) * (placesToShow - 1);
+  }
 
   return (
     <View style={{ ...styles.container, width }} testID="ClaimsListContainer">
@@ -74,7 +77,12 @@ function Icon({ index, image, accessibilityLabel = 'Claim icon' }: IconPorps) {
   }
 
   return (
-    <View style={StyleSheet.compose(styles.icon, { zIndex: 4 - index })}>
+    <View
+      style={StyleSheet.compose(styles.icon, {
+        zIndex: 4 - index,
+        marginLeft: index > 0 ? -iconOverlap : 0,
+      })}
+    >
       <Image {...imageProps} accessibilityLabel={accessibilityLabel} />
     </View>
   );
@@ -86,7 +94,7 @@ type ClaimsToSeeProps = {
 
 function ClaimsToSee({ amount }: ClaimsToSeeProps) {
   return (
-    <View style={styles.icon}>
+    <View style={StyleSheet.compose(styles.icon, { marginLeft: -iconOverlap })}>
       <Text
         style={styles.claimsToSeeAmount}
         allowFontScaling={false}
@@ -98,10 +106,13 @@ function ClaimsToSee({ amount }: ClaimsToSeeProps) {
   );
 }
 
+const fixCapsulePadding = -3;
 const styles = StyleSheet.create({
   container: {
     width: iconSize,
     height: iconSize,
+    marginLeft: fixCapsulePadding,
+    marginRight: fixCapsulePadding,
   },
   claimsList: {
     flex: 1,
@@ -110,14 +121,12 @@ const styles = StyleSheet.create({
     minWidth: iconSize,
     maxWidth: 80,
     flexDirection: 'row',
-    paddingLeft: 4,
   },
   icon: {
     borderWidth: borderWidth,
     borderColor: '#EDEDED',
     backgroundColor: '#FFFFFF',
     ...ofSize(iconSize),
-    marginLeft: -iconOverlap,
     justifyContent: 'center',
   },
   image: {
