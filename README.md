@@ -88,6 +88,8 @@ export function ProductPage () {
 }
 ```
 
+You may provide `overlayHeight={'80%'}` prop it defines the height of the overlay when Proof Point detail is revealed. The supported values are percentage or number.
+
 You may already have established UI patterns to handle overlays, for instance, your modal component or some `BottomSheet` library that you want to use as a container for the Bundle. If this is the case, check the next section.
 
 ### Using Trust Badge and Bundle with your overlay
@@ -193,6 +195,24 @@ Just add it to the `getBundleLoadingHeight` and `height` in `onResized` callback
       setBundleContainerHeight(newSize + verticalMargin);
       bottomSheetRef.current?.snapToPosition(newSize + verticalMargin);
     }}
+```
+
+#### I want ProofPoints details modal to take more height
+
+`Bundle` component takes whole available space of the container. So if you want to let your users scroll less you could make your Overlay component taller when modal opened. For example:
+
+```
+  <Bundle
+    bundleId={design.bundleId}
+    sku={design.sku}
+    onResized={(newSize: number) => {
+      // we still need this callback to make sure the container has enough of space to display Bundle
+      setBundleContainerHeight(newSize);
+      bottomSheetRef.current?.snapToPosition(newSize);
+    }}
+    // Add this callback which will be invoked after ProofPoint details modal shown. Give as much space as you like.
+    onModalShown={() => bottomSheetRef.current?.snapToPosition('85%') }
+  />
 ```
 
 ## Contributing

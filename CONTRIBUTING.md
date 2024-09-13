@@ -160,3 +160,10 @@ corepack enable                         # - enables corepack - the manager of a 
 corepack prepare yarn@3.6.1 --activate  # take the correct version from package.json
 asdf reshim                             # if you use asdf - update binaries symlinks
 ```
+
+## Native SDKs dependencies
+
+If you don't have Android and iOS emulators. You could follow these guides for installation:
+
+* [Android](https://docs.expo.dev/get-started/set-up-your-environment/?platform=android&device=simulated&mode=development-build&buildEnv=local)
+* [iOS](https://docs.expo.dev/get-started/set-up-your-environment/?platform=ios&device=simulated&mode=development-build&buildEnv=local)
