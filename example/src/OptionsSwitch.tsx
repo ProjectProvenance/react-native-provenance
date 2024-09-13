@@ -25,7 +25,7 @@ export function OptionsSwitch({
               style={{
                 ...styles.controlsText,
                 ...styles.controlsSwitcher,
-                fontWeight: key === currentOption ? 'bold' : '400',
+                ...(key === currentOption && styles.controlsSwitcherSelected),
               }}
             >
               {key}
@@ -50,5 +50,9 @@ const styles = StyleSheet.create({
     paddingVertical: 1,
     paddingHorizontal: 4,
     marginStart: 4,
+    fontWeight: '400',
+  },
+  controlsSwitcherSelected: {
+    fontWeight: 'bold',
   },
 });

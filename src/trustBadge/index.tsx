@@ -98,7 +98,7 @@ export default function TrustBadge({
 
   return (
     <View style={{ flexBasis: trustBadgeHeight }}>
-      <View style={{ flex: 1 }}>
+      <View style={styles.flex}>
         <TouchableOpacity onPress={handleTrustBadgePress}>
           {variant === 'Tick' ? (
             <Tick />
@@ -114,8 +114,8 @@ export default function TrustBadge({
             onRequestClose={() => setShowWebview(!showWebview)}
             animationType="slide"
           >
-            <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-              <TouchableOpacity onPress={toggleBundle} style={{ flex: 1 }} />
+            <View style={styles.modalRoot}>
+              <TouchableOpacity onPress={toggleBundle} style={styles.flex} />
               <Animated.View
                 style={{ ...styles.modalContainer, height: growAnim }}
               >
@@ -140,6 +140,13 @@ export default function TrustBadge({
 }
 
 const styles = StyleSheet.create({
+  flex: {
+    flex: 1,
+  },
+  modalRoot: {
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
   modalContainer: {
     height: bundleLoadingHeight,
     borderTopWidth: 1,

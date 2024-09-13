@@ -47,6 +47,5 @@ export function getOffers(sku: string): Promise<OffersData> {
     },
   })
     .then((response) => response.json())
-    .then((data) => data)
     .catch(console.error);
 }
