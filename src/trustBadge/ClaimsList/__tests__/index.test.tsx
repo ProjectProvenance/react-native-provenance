@@ -40,7 +40,7 @@ describe('with 2 claimIcons', () => {
     render(<ClaimsList claimsIcons={[image1, image2]} />);
 
     expect(screen.getByTestId('ClaimsListContainer').props.style).toEqual(
-      expect.objectContaining({ width: 52 })
+      expect.objectContaining({ width: 60 })
     );
     expect(screen.queryAllByLabelText('Claim icon')).toHaveLength(2);
     expect(screen.queryAllByLabelText('More claims')).toHaveLength(0);
@@ -53,7 +53,7 @@ describe('with 3 claimIcons', () => {
     render(<ClaimsList claimsIcons={[image1, image2, image3]} />);
 
     expect(screen.getByTestId('ClaimsListContainer').props.style).toEqual(
-      expect.objectContaining({ width: 78 })
+      expect.objectContaining({ width: 86 })
     );
     expect(screen.queryAllByLabelText('Claim icon')).toHaveLength(3);
     expect(screen.queryAllByLabelText('More claims')).toHaveLength(0);
@@ -66,7 +66,7 @@ describe('with more than 3', () => {
     render(<ClaimsList claimsIcons={[image1, image2, image3, image4]} />);
 
     expect(screen.getByTestId('ClaimsListContainer').props.style).toEqual(
-      expect.objectContaining({ width: 78 })
+      expect.objectContaining({ width: 86 })
     );
     expect(screen.queryAllByLabelText('Claim icon')).toHaveLength(2);
     expect(screen.queryAllByLabelText('More claims')).toHaveLength(1);
@@ -81,7 +81,7 @@ describe('with unsupported icons', () => {
       render(<ClaimsList claimsIcons={['<svg>1</svg>']} />);
 
       expect(screen.getByTestId('ClaimsListContainer').props.style).toEqual(
-        expect.objectContaining({ width: 52 })
+        expect.objectContaining({ width: 60 })
       );
       expect(screen.queryAllByLabelText('Claim icon')).toHaveLength(0);
       expect(screen.queryAllByLabelText('More claims')).toHaveLength(1);
@@ -95,7 +95,7 @@ describe('with unsupported icons', () => {
       render(<ClaimsList claimsIcons={['1', '2']} />);
 
       expect(screen.getByTestId('ClaimsListContainer').props.style).toEqual(
-        expect.objectContaining({ width: 52 })
+        expect.objectContaining({ width: 60 })
       );
       expect(screen.queryAllByLabelText('Claim icon')).toHaveLength(0);
       expect(screen.queryAllByLabelText('More claims')).toHaveLength(1);
@@ -113,7 +113,7 @@ describe('with unsupported icons', () => {
       );
 
       expect(screen.getByTestId('ClaimsListContainer').props.style).toEqual(
-        expect.objectContaining({ width: 78 })
+        expect.objectContaining({ width: 86 })
       );
       expect(screen.queryAllByLabelText('Claim icon')).toHaveLength(2);
       expect(screen.queryAllByLabelText('More claims')).toHaveLength(1);
@@ -122,7 +122,7 @@ describe('with unsupported icons', () => {
 
       render(<ClaimsList claimsIcons={[image1, '<svg></svg>', image2]} />);
       expect(screen.getByTestId('ClaimsListContainer').props.style).toEqual(
-        expect.objectContaining({ width: 78 })
+        expect.objectContaining({ width: 86 })
       );
       expect(screen.queryAllByLabelText('Claim icon')).toHaveLength(2);
       expect(screen.queryAllByLabelText('More claims')).toHaveLength(1);
