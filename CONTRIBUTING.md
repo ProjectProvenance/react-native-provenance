@@ -17,6 +17,7 @@ To get started with the project, run `yarn` in the root directory to install the
 yarn
 ```
 
+> [!NOTE]
 > Since the project relies on Yarn workspaces, you cannot use [`npm`](https://github.com/npm/cli) for development.
 
 The [example app](/example/) demonstrates usage of the library. You need to run it to test any changes you make.
@@ -72,8 +73,9 @@ You can specify API host, and Bundles. See the env file for reference. Note that
 
 ### Updating webview
 
+Install webview that should match the version of webview from the package:
 ```
-npx expo install react-native-webview@^13.10.3 		# install webview that should match the version of webviewe from the package
+npx expo install react-native-webview@^13.10.3
 ```
 
 ### Commit message convention
@@ -149,11 +151,11 @@ When you're sending a pull request:
 - Follow the pull request template when opening a pull request.
 - For pull requests that change the API or implementation, discuss with maintainers first by opening an issue.
 
-# Initiall installation notes
+# Initial installation notes
 
 ## Installing yarn
 
-```
+```sh
 corepack enable                         # - enables corepack - the manager of a package managers bundled with npm :D
 corepack prepare yarn@3.6.1 --activate  # take the correct version from package.json
 asdf reshim                             # if you use asdf - update binaries symlinks
