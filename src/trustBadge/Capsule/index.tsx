@@ -1,7 +1,6 @@
 import React, { type FC, type ReactNode } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-// @FIXME: Should be 32 but, it starts cutting off second line on larger font sizes. Prioritizing accesibility for now
 export const defaultHeight = 32;
 
 export const Capsule: FC<{ children: ReactNode; height?: number }> = ({
