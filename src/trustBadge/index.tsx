@@ -96,6 +96,9 @@ export default function TrustBadge({
   const trustBadgeHeight =
     variant === 'Tick' ? Tick.getHeight() : ProofPoint.getHeight();
 
+  if (!offers || !offers.proofPoints || offers.proofPoints.length === 0)
+    return <></>;
+
   return (
     <View style={{ flexBasis: trustBadgeHeight }}>
       <View style={styles.flex}>

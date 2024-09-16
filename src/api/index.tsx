@@ -8,9 +8,23 @@ let host = hosts.production;
 let apiRoot = 'https://api.provenance.org';
 let apiKey: string = '';
 
-export type ApiHost = 'staging' | 'production' | string;
+type ApiHost = 'staging' | 'production' | string;
 
-export function setHost(apiHost: ApiHost) {
+type ConfigurationOptions = {
+  apiHost?: ApiHost;
+  key: string;
+};
+
+export const configure = (options: ConfigurationOptions) => {
+  if (options.apiHost) {
+    console.log('Setting host to:', options.apiHost);
+    setHost(options.apiHost);
+  }
+
+  setApiKey(options.key);
+};
+
+function setHost(apiHost: ApiHost) {
   if (apiHost === 'staging' || apiHost === 'production') {
     host = hosts[apiHost];
   } else {
@@ -22,7 +36,7 @@ export function setHost(apiHost: ApiHost) {
   }
 }
 
-export function setApiKey(key: string) {
+function setApiKey(key: string) {
   apiKey = key;
 }
 
@@ -38,14 +52,37 @@ export type ProofPoint = {
   iconHTML: string;
 };
 
-export function getOffers(sku: string): Promise<OffersData> {
-  return fetch(apiRoot + `/v1/offers/${sku}?type=sku`, {
-    headers: {
-      'Accept': '*/*',
-      'Content-Type': 'application/json',
-      'X-Api-Key': apiKey,
-    },
-  })
-    .then((response) => response.json())
-    .catch(console.error);
+export async function getOffers(sku: string): Promise<OffersData | null> {
+  try {
+    const response = await fetch(apiRoot + `/v1/offers/${sku}?type=sku`, {
+      headers: {
+        'Accept': '*/*',
+        'Content-Type': 'application/json',
+        'X-Api-Key': apiKey,
+      },
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      if (!data.proofPoints) {
+        console.error(
+          'Unexpected response. Looks like API endpoint having a problem please let us know if the issues persists.'
+        );
+        return null;
+      }
+      if (data.proofPoints.length === 0) {
+        console.warn(
+          `No proof points found for the SKU: ${sku}, it could be a valid case but better double check that the SKU is valid.`
+        );
+      }
+      return data;
+    } else {
+      const message = await response.text();
+      console.error(`Response failed. ${response.status} ${message}`);
+      return null;
+    }
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
 }
