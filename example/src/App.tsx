@@ -18,7 +18,8 @@ export default function App() {
     React.useState<string>(defaultDesign);
   const design = designs[currentDesign];
 
-  const [currentVariant, setCurrentVariant] = React.useState<string>('Tick');
+  const [currentVariant, setCurrentVariant] =
+    React.useState<string>('ProofPoint');
 
   if (!design) {
     return (

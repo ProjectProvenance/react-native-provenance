@@ -1,15 +1,13 @@
 import { useState, useEffect } from 'react';
-import { getOffers } from '../api';
+import { getOffers, type OffersData } from '../api';
 
 export const useOffers = (sku: string) => {
-  const [offers, setOffers] = useState<any>([]);
+  const [offers, setOffers] = useState<OffersData | null>();
 
   useEffect(() => {
-    getOffers(sku)
-      .then((responseData) => {
-        setOffers(responseData);
-      })
-      .catch((reason) => console.error('Failed to get offers', reason));
+    getOffers(sku).then((offersResponseData) => {
+      setOffers(offersResponseData);
+    });
   }, [sku]);
 
   return { offers };

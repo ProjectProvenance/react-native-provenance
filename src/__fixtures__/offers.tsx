@@ -25,3 +25,14 @@ export const offersSuccess = () => ({
     },
   ],
 });
+
+export const offersNoProofPoints = () => ({
+  trustBadge: {
+    backgroundColor: '#dedede',
+    variant: 'proofpoints',
+  },
+  bundle: {
+    autoRenderBundle: true,
+  },
+  proofPoints: [],
+});
