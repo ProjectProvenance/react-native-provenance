@@ -19,6 +19,7 @@ import {
 import { ProofPoint } from './ProofPoint';
 import { useOffers } from '../hooks/useOffers';
 import { getClaimIcons } from '../utils';
+import ErrorBoundary from '../ErrorBoundary';
 
 type TrustBadgeProps = {
   bundleId: string;
@@ -31,14 +32,22 @@ type TrustBadgeProps = {
 
 const supportedVariants = ['Tick', 'ProofPoint'];
 
-export default function TrustBadge({
+export default function TrustBadge(props: TrustBadgeProps) {
+  return (
+    <ErrorBoundary>
+      <TrustBadgeComponent {...props} />
+    </ErrorBoundary>
+  );
+}
+
+const TrustBadgeComponent = ({
   bundleId,
   sku,
   onPress,
   overlay = true,
   overlayHeight,
   variant = 'Tick',
-}: TrustBadgeProps) {
+}: TrustBadgeProps) => {
   const [showWebview, setShowWebview] = React.useState(false);
   const { height } = useWindowDimensions();
 
@@ -140,7 +149,7 @@ export default function TrustBadge({
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   flex: {

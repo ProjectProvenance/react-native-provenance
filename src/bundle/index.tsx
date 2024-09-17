@@ -7,6 +7,8 @@ import type {
   WebViewErrorEvent,
   WebViewMessageEvent,
 } from 'react-native-webview/lib/WebViewTypes';
+import ErrorBoundary from '../ErrorBoundary';
+import * as Errors from '../services/Errors';
 
 const handleShouldStartLoadWithRequest = (request: any) => {
   // Intercept URL loading
@@ -39,7 +41,7 @@ export const minModalHeight = 540;
 
 export const loadingHeight = 175;
 
-export function Bundle({
+function BundleComponent({
   bundleId,
   sku,
   onModalShown,
@@ -60,7 +62,7 @@ export function Bundle({
         nestedScrollEnabled={true}
         onError={(syntheticEvent: WebViewErrorEvent) => {
           const { nativeEvent } = syntheticEvent;
-          console.warn('WebView error: ', nativeEvent);
+          Errors.handle(`WebView error: ${nativeEvent}`);
         }}
         injectedJavaScript={`
           window.ReactNativeWebView.postMessage("JS injected");
@@ -120,6 +122,14 @@ export function Bundle({
         onShouldStartLoadWithRequest={handleShouldStartLoadWithRequest}
       />
     </View>
+  );
+}
+
+export function Bundle(props: BundleProps) {
+  return (
+    <ErrorBoundary fallback="Something went wrong">
+      <BundleComponent {...props} />
+    </ErrorBoundary>
   );
 }
 

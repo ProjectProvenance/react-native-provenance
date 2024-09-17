@@ -101,4 +101,29 @@ describe('TrustBadge', () => {
       });
     });
   });
+
+  describe('when error raised', () => {
+    it('is not shown', () => {
+      mockGetOffers.mockImplementation(() => {
+        throw new Error('Unhandled error');
+      });
+      expect(() => whenTrustBadgeRendered()).not.toThrow();
+
+      expect(screen.root).not.toHaveTextContent(/Sustainability claims/i);
+    });
+  });
+
+  describe('with wrong params', () => {
+    it('gently notifies developer', () => {
+      expect(() => {
+        whenTrustBadgeRendered('UnsupportedVariant');
+      }).not.toThrow();
+
+      expect(console.error).toHaveBeenCalledWith(
+        expect.stringContaining(
+          'Trust badge variant "UnsupportedVariant" is invalid'
+        )
+      );
+    });
+  });
 });
