@@ -66,7 +66,7 @@ export async function getOffers(sku: string): Promise<OffersData | null> {
       const data = await response.json();
       if (!data.proofPoints) {
         console.error(
-          'Unexpected response. Looks like API endpoint having a problem please let us know if the issues persists.'
+          'Unexpected response. Looks like API endpoint having a problem please let us know if the issue persists.'
         );
         return null;
       }

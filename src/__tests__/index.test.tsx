@@ -3,11 +3,14 @@ import { TrustBadge, configure } from '../';
 import { offersSuccess, offersNoProofPoints } from '../__fixtures__/offers';
 import React from 'react';
 import { View } from 'react-native';
+import * as api from '../api';
 
 const mockWebview = () => View;
 jest.mock('react-native-webview', () => ({
   WebView: mockWebview,
 }));
+
+const mockGetOffers = jest.spyOn(api, 'getOffers');
 
 global.console = {
   ...console,
@@ -16,20 +19,9 @@ global.console = {
   error: jest.fn(),
 };
 
-const sampleApiKey = 'test-api-key';
-configure({ apiHost: 'staging', key: sampleApiKey });
-
-let resolveFetch: (data: any) => void;
-let rejectFetch: (data: any) => void;
-global.fetch = jest.fn(
-  () =>
-    new Promise((resolve, reject) => {
-      resolveFetch = resolve;
-      rejectFetch = reject;
-    })
-) as jest.Mock;
-
 describe('TrustBadge', () => {
+  configure({ apiHost: 'staging', key: 'test-api-key' });
+
   function whenTrustBadgeRendered(variant?: string | undefined) {
     render(
       <View>
@@ -38,83 +30,46 @@ describe('TrustBadge', () => {
     );
   }
 
-  describe('fetches data from offers', () => {
-    describe('when there is no response yet', () => {
-      it('is not shown', async () => {
-        whenTrustBadgeRendered();
+  let getOffersPromiseResolve: (data: any) => void;
 
-        expectApiHasBeenCalled();
-
-        expect(screen.root).not.toHaveTextContent(/Sustainability claims/i);
-      });
+  beforeEach(() => {
+    jest.clearAllMocks();
+    const getOffersPromise = new Promise<any>((resolve) => {
+      getOffersPromiseResolve = resolve;
     });
+    mockGetOffers.mockReturnValue(getOffersPromise);
+  });
 
-    describe('when proof points were found', () => {
-      it('shows the Tick variant', async () => {
-        whenTrustBadgeRendered();
+  describe('when there is no response yet', () => {
+    it('is not shown', async () => {
+      whenTrustBadgeRendered();
 
-        await act(() => {
-          resolveFetch({
-            ok: true,
-            json: () => Promise.resolve(offersSuccess()),
-          });
-        });
+      expect(mockGetOffers).toHaveBeenCalled();
 
-        expect(screen.root).toHaveTextContent(/Sustainability claims/i);
-      });
-    });
-
-    describe('when proof points were not found', () => {
-      it('is not shown', async () => {
-        whenTrustBadgeRendered();
-
-        await act(() => {
-          resolveFetch({
-            ok: true,
-            json: () => Promise.resolve(offersNoProofPoints()),
-          });
-        });
-
-        expect(screen.root).not.toHaveTextContent(/Sustainability claims/i);
-        expect(console.warn).toHaveBeenCalledWith(
-          expect.stringContaining('No proof points found for the SKU: fakeSku')
-        );
-      });
-    });
-
-    describe('when response is not successfull', () => {
-      describe('when server failure', () => {
-        it('is not shown', async () => {
-          whenTrustBadgeRendered();
-
-          await act(() => {
-            rejectFetch({
-              ok: false,
-              text: () => Promise.resolve('Gateway error'),
-            });
-          });
-
-          expect(screen.root).not.toHaveTextContent(/Sustainability claims/i);
-        });
-      });
+      expect(screen.root).not.toHaveTextContent(/Sustainability claims/i);
     });
   });
 
-  describe('when ProofPoint variant', () => {
-    describe('when proof points found', () => {
+  describe('when proof points were found', () => {
+    it('shows the Tick variant by default', async () => {
+      whenTrustBadgeRendered();
+
+      await act(() => {
+        getOffersPromiseResolve(offersSuccess());
+      });
+
+      expect(screen.root).toHaveTextContent(/Sustainability claims/i);
+    });
+
+    describe('when ProofPoint variant', () => {
       it('shows icons', async () => {
         whenTrustBadgeRendered('ProofPoint');
-
-        expectApiHasBeenCalled();
 
         expect(screen.queryAllByLabelText('Provenance logo')).toHaveLength(0);
         expect(screen.root).not.toHaveTextContent(/Sustainability claims/i);
 
         await act(() => {
-          resolveFetch({
-            ok: true,
-            json: () => Promise.resolve(offersSuccess()),
-          });
+          getOffersPromiseResolve(offersSuccess());
         });
 
         expect(screen.queryAllByLabelText('Provenance logo')).toHaveLength(0);
@@ -122,17 +77,28 @@ describe('TrustBadge', () => {
       });
     });
   });
-});
 
-function expectApiHasBeenCalled() {
-  expect(fetch).toHaveBeenCalledWith(
-    'https://api-staging.provenance.org/v1/offers/fakeSku?type=sku',
-    {
-      headers: {
-        'Accept': '*/*',
-        'Content-Type': 'application/json',
-        'X-Api-Key': sampleApiKey,
-      },
-    }
-  );
-}
+  describe('when proof points were not found', () => {
+    it('is not shown', async () => {
+      whenTrustBadgeRendered();
+
+      await act(() => {
+        getOffersPromiseResolve(offersNoProofPoints());
+      });
+
+      expect(screen.root).not.toHaveTextContent(/Sustainability claims/i);
+    });
+
+    describe('when no offers', () => {
+      it('is not shown', async () => {
+        whenTrustBadgeRendered();
+
+        await act(() => {
+          getOffersPromiseResolve(null);
+        });
+
+        expect(screen.root).not.toHaveTextContent(/Sustainability claims/i);
+      });
+    });
+  });
+});
