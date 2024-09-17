@@ -1,3 +1,5 @@
+import * as Errors from '../services/Errors';
+
 const hosts = {
   production: 'https://provenance.org',
   staging: 'https://staging.provenance.org',
@@ -65,24 +67,24 @@ export async function getOffers(sku: string): Promise<OffersData | null> {
     if (response.ok) {
       const data = await response.json();
       if (!data.proofPoints) {
-        console.error(
+        Errors.handle(
           'Unexpected response. Looks like API endpoint having a problem please let us know if the issue persists.'
         );
         return null;
       }
       if (data.proofPoints.length === 0) {
-        console.warn(
+        Errors.warn(
           `No proof points found for the SKU: ${sku}, it could be a valid case but better double check that the SKU is valid.`
         );
       }
       return data;
     } else {
       const message = await response.text();
-      console.error(`Response failed. ${response.status} ${message}`);
+      Errors.handle(`Response failed. ${response.status} ${message}`);
       return null;
     }
   } catch (e) {
-    console.error(e);
+    Errors.handle(e as Error);
     return null;
   }
 }
