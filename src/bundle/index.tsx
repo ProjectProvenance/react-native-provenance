@@ -6,6 +6,7 @@ import { bundleUrl } from '../api';
 import type {
   WebViewErrorEvent,
   WebViewMessageEvent,
+  WebViewRenderProcessGoneEvent,
 } from 'react-native-webview/lib/WebViewTypes';
 import ErrorBoundary from '../ErrorBoundary';
 import * as Errors from '../services/Errors';
@@ -63,6 +64,12 @@ function BundleComponent({
         onError={(syntheticEvent: WebViewErrorEvent) => {
           const { nativeEvent } = syntheticEvent;
           Errors.handle(`WebView error: ${nativeEvent}`);
+        }}
+        onRenderProcessGone={(
+          syntheticEvent: WebViewRenderProcessGoneEvent
+        ) => {
+          const { nativeEvent } = syntheticEvent;
+          Errors.handle(`WebView crashed: ${nativeEvent.didCrash}`);
         }}
         injectedJavaScript={`
           window.ReactNativeWebView.postMessage("JS injected");
