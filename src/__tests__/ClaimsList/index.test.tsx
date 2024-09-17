@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react-native';
-import { ClaimsList } from '../../trustBadge/ClaimsList';
+import { ClaimsList } from '@src/trustBadge/ClaimsList';
 import React from 'react';
 
 const validImageUrl = (number: number) => `https://cdn.io/img${number}`;

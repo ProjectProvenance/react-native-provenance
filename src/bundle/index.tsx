@@ -3,13 +3,9 @@ import * as React from 'react';
 import { View, StyleSheet, Linking } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { bundleUrl } from '../api';
-import type {
-  WebViewErrorEvent,
-  WebViewMessageEvent,
-  WebViewRenderProcessGoneEvent,
-} from 'react-native-webview/lib/WebViewTypes';
+import type { WebViewMessageEvent } from 'react-native-webview/lib/WebViewTypes';
 import ErrorBoundary from '../ErrorBoundary';
-import * as Errors from '../services/Errors';
+import { webviewErrorHandler } from './webviewErrorHandler';
 
 const handleShouldStartLoadWithRequest = (request: any) => {
   // Intercept URL loading
@@ -57,20 +53,20 @@ function BundleComponent({
     <View style={styles.webViewContainer}>
       <WebView
         ref={(r: any) => (webview.current = r)}
-        source={{ uri: bundleUrl(bundleId, sku) }}
+        source={{
+          uri: bundleUrl(bundleId, sku),
+          // There's no way to unit test Webview. So uncomment the following lines to test manually
+          // uri: 'https://wrongdomainlol.io',
+          // uri: 'https://staging.provenance.org/webviews/123/123',
+        }}
         style={{ flex: 1 }}
         startInLoadingState={true}
         nestedScrollEnabled={true}
-        onError={(syntheticEvent: WebViewErrorEvent) => {
-          const { nativeEvent } = syntheticEvent;
-          Errors.handle(`WebView error: ${nativeEvent}`);
-        }}
-        onRenderProcessGone={(
-          syntheticEvent: WebViewRenderProcessGoneEvent
-        ) => {
-          const { nativeEvent } = syntheticEvent;
-          Errors.handle(`WebView crashed: ${nativeEvent.didCrash}`);
-        }}
+        onError={webviewErrorHandler('WebViewErrorEvent')}
+        onHttpError={webviewErrorHandler('WebViewHttpErrorEvent')}
+        onRenderProcessGone={webviewErrorHandler(
+          'WebViewRenderProcessGoneEvent'
+        )}
         injectedJavaScript={`
           window.ReactNativeWebView.postMessage("JS injected");
 
