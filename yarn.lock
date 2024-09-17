@@ -3181,6 +3181,7 @@ __metadata:
     "@testing-library/react-native": ^12.6.1
     "@types/jest": ^29.5.5
     "@types/react": ^18.2.44
+    babel-plugin-module-resolver: ^5.0.2
     commitlint: ^17.0.2
     del-cli: ^5.1.0
     eslint: ^8.51.0
