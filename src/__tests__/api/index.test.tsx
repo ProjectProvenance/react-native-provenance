@@ -1,4 +1,4 @@
-import { offersSuccess } from '../../__fixtures__/offers';
+import { offersNoProofPoints, offersSuccess } from '../../__fixtures__/offers';
 import { getOffers, configure } from '../../api';
 
 global.console = {
@@ -53,6 +53,22 @@ describe('getOffers', () => {
       expect(result).toBeNull();
       expect(console.error).toHaveBeenCalledWith(
         expect.stringContaining('Unexpected response')
+      );
+    });
+  });
+
+  describe('when proof points were not found', () => {
+    it('is not shown', async () => {
+      global.fetch = jest.fn(() => ({
+        ok: true,
+        json: () => Promise.resolve(offersNoProofPoints()),
+      })) as jest.Mock;
+
+      const result = await getOffers('fakeSku');
+
+      expect(result).toEqual(offersNoProofPoints());
+      expect(console.warn).toHaveBeenCalledWith(
+        expect.stringContaining('No proof points found for the SKU: fakeSku')
       );
     });
   });
