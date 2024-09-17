@@ -1,4 +1,5 @@
 import * as Errors from '../services/Errors';
+import { type OnErrorCallback } from '../services/Errors';
 
 const hosts = {
   production: 'https://provenance.org',
@@ -13,17 +14,22 @@ let apiKey: string = '';
 type ApiHost = 'staging' | 'production' | string;
 
 type ConfigurationOptions = {
-  apiHost?: ApiHost;
   key: string;
+  apiHost?: ApiHost;
+  onError?: OnErrorCallback;
 };
 
 export const configure = (options: ConfigurationOptions) => {
+  setApiKey(options.key);
+
   if (options.apiHost) {
     console.log('Setting host to:', options.apiHost);
     setHost(options.apiHost);
   }
 
-  setApiKey(options.key);
+  if (options.onError) {
+    Errors.setOnErrorCallback(options.onError);
+  }
 };
 
 function setHost(apiHost: ApiHost) {
