@@ -1,5 +1,6 @@
-import { offersNoProofPoints, offersSuccess } from '../../__fixtures__/offers';
-import { getOffers, configure } from '../../api';
+import { offersNoProofPoints, offersSuccess } from '@src/__fixtures__/offers';
+import { getOffers, configure } from '@src/api';
+import * as Errors from '@src/services/Errors';
 
 global.console = {
   ...console,
@@ -12,6 +13,12 @@ const sampleApiKey = 'test-api-key';
 configure({ apiHost: 'staging', key: sampleApiKey });
 
 describe('getOffers', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    jest.spyOn(Errors, 'handle');
+    jest.spyOn(Errors, 'warn');
+  });
+
   it('calls the API', async () => {
     global.fetch = jest.fn(() => ({
       ok: true,
@@ -35,7 +42,7 @@ describe('getOffers', () => {
       const result = await getOffers('a-sku');
 
       expect(result).toBeNull();
-      expect(console.error).toHaveBeenCalledWith(
+      expect(Errors.handle).toHaveBeenCalledWith(
         expect.stringContaining('Bad gateway')
       );
     });
@@ -51,7 +58,7 @@ describe('getOffers', () => {
       const result = await getOffers('a-sku');
 
       expect(result).toBeNull();
-      expect(console.error).toHaveBeenCalledWith(
+      expect(Errors.handle).toHaveBeenCalledWith(
         expect.stringContaining('Unexpected response')
       );
     });
@@ -67,7 +74,7 @@ describe('getOffers', () => {
       const result = await getOffers('fakeSku');
 
       expect(result).toEqual(offersNoProofPoints());
-      expect(console.warn).toHaveBeenCalledWith(
+      expect(Errors.warn).toHaveBeenCalledWith(
         expect.stringContaining('No proof points found for the SKU: fakeSku')
       );
     });
