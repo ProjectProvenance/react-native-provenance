@@ -12,6 +12,7 @@ const path = '/webviews';
 let host = hosts.production;
 let apiRoot = 'https://api.provenance.org';
 let apiKey: string = '';
+let bundleId: string | undefined;
 
 function getClientInfo() {
   return [`rn-${version}`, Platform.OS, Platform.Version].join('/');
@@ -27,20 +28,26 @@ type ApiHost = 'staging' | 'production' | string;
 
 type ConfigurationOptions = {
   key: string;
+  bundleId: string;
   apiHost?: ApiHost;
   onError?: OnErrorCallback;
 };
 
 export const configure = (options: ConfigurationOptions) => {
-  setApiKey(options.key);
+  try {
+    setApiKey(options.key);
+    setBundleId(options.bundleId);
 
-  if (options.apiHost) {
-    console.log('Setting host to:', options.apiHost);
-    setHost(options.apiHost);
-  }
+    if (options.apiHost) {
+      console.log('Setting host to:', options.apiHost);
+      setHost(options.apiHost);
+    }
 
-  if (options.onError) {
-    Errors.setOnErrorCallback(options.onError);
+    if (options.onError) {
+      Errors.setOnErrorCallback(options.onError);
+    }
+  } catch (e) {
+    Errors.handle(e as Error);
   }
 };
 
@@ -56,11 +63,31 @@ function setHost(apiHost: ApiHost) {
   }
 }
 
+class ProvenanceConfigError extends Error {
+  constructor(message: string) {
+    super(message);
+  }
+}
+
 function setApiKey(key: string) {
+  if (!key)
+    throw new ProvenanceConfigError(
+      '"key" is missing. Please provide API key.'
+    );
+
   apiKey = key;
 }
 
-export function bundleUrl(bundleId: string, sku: string) {
+function setBundleId(bundleIdValue: string) {
+  if (!bundleIdValue)
+    throw new ProvenanceConfigError(
+      '"bundleId" is missing. Please provide valid Bundle Id'
+    );
+
+  bundleId = bundleIdValue;
+}
+
+export function bundleUrl(sku: string) {
   return host + path + `/${bundleId}/${sku}`;
 }
 

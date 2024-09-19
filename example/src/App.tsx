@@ -49,7 +49,6 @@ export default function App() {
         </View>
 
         <TrustBadge
-          bundleId={design.bundleId}
           sku={design.sku}
           overlayHeight={'80%'}
           variant={currentVariant}

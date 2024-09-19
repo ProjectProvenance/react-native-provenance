@@ -1,10 +1,13 @@
 import { configure } from '@provenance/react-native-provenance';
 
-if (process.env.EXPO_PUBLIC_API_HOST && process.env.EXPO_PUBLIC_API_KEY) {
+if (process.env.EXPO_PUBLIC_API_KEY && process.env.EXPO_PUBLIC_BUNDLE_ID) {
   configure({
     apiHost: process.env.EXPO_PUBLIC_API_HOST,
     key: process.env.EXPO_PUBLIC_API_KEY,
+    bundleId: process.env.EXPO_PUBLIC_BUNDLE_ID,
   });
+} else {
+  throw 'Please set EXPO_PUBLIC_API_KEY, EXPO_PUBLIC_BUNDLE_ID in your .env file';
 }
 
 type Designs = { [key: string]: { bundleId: string; sku: string } };

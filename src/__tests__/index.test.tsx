@@ -20,12 +20,16 @@ global.console = {
 };
 
 describe('TrustBadge', () => {
-  configure({ apiHost: 'staging', key: 'test-api-key' });
+  configure({
+    key: 'test-api-key',
+    bundleId: 'fakeBundleId',
+    apiHost: 'staging',
+  });
 
   function whenTrustBadgeRendered(variant?: string | undefined) {
     render(
       <View>
-        <TrustBadge bundleId="fakeBundleId" sku="fakeSku" variant={variant} />
+        <TrustBadge sku="fakeSku" variant={variant} />
       </View>
     );
   }

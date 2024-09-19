@@ -1,5 +1,5 @@
 import { offersNoProofPoints, offersSuccess } from '@src/__fixtures__/offers';
-import { getOffers, configure } from '@src/api';
+import { getOffers, configure, bundleUrl } from '@src/api';
 import * as Errors from '@src/services/Errors';
 
 global.console = {
@@ -10,7 +10,7 @@ global.console = {
 };
 
 const sampleApiKey = 'test-api-key';
-configure({ apiHost: 'staging', key: sampleApiKey });
+configure({ key: sampleApiKey, bundleId: 'a-bundle-id', apiHost: 'staging' });
 
 describe('getOffers', () => {
   beforeEach(() => {
@@ -78,6 +78,14 @@ describe('getOffers', () => {
         expect.stringContaining('No proof points found for the SKU: fakeSku')
       );
     });
+  });
+});
+
+describe('getBundleUrl', () => {
+  it('returns bundle URL', () => {
+    expect(bundleUrl('a-sku')).toBe(
+      'https://staging.provenance.org/webviews/a-bundle-id/a-sku'
+    );
   });
 });
 
