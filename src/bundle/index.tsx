@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { View, StyleSheet, Linking } from 'react-native';
 import { WebView } from 'react-native-webview';
-import { bundleUrl } from '../api';
+import { bundleUrl, getClientHeaders } from '../api';
 import type { WebViewMessageEvent } from 'react-native-webview/lib/WebViewTypes';
 import ErrorBoundary from '../ErrorBoundary';
 import { webviewErrorHandler } from './webviewErrorHandler';
@@ -58,6 +58,9 @@ function BundleComponent({
           // There's no way to unit test Webview. So uncomment the following lines to test manually
           // uri: 'https://wrongdomainlol.io',
           // uri: 'https://staging.provenance.org/webviews/123/123',
+          headers: {
+            ...getClientHeaders(),
+          },
         }}
         style={{ flex: 1 }}
         startInLoadingState={true}

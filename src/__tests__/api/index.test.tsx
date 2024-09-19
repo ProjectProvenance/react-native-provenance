@@ -89,6 +89,9 @@ function expectApiHasBeenCalled() {
         'Accept': '*/*',
         'Content-Type': 'application/json',
         'X-Api-Key': sampleApiKey,
+        'X-Prov-Client': expect.stringMatching(
+          /^rn-\d+\.\d+.\d+\/(ios|android)\//
+        ),
       },
     }
   );

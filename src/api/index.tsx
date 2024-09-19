@@ -1,5 +1,7 @@
+import { Platform } from 'react-native';
 import * as Errors from '../services/Errors';
 import { type OnErrorCallback } from '../services/Errors';
+import { version } from '../../package.json';
 
 const hosts = {
   production: 'https://provenance.org',
@@ -10,6 +12,16 @@ const path = '/webviews';
 let host = hosts.production;
 let apiRoot = 'https://api.provenance.org';
 let apiKey: string = '';
+
+function getClientInfo() {
+  return [`rn-${version}`, Platform.OS, Platform.Version].join('/');
+}
+
+export function getClientHeaders() {
+  return {
+    'X-Prov-Client': getClientInfo(),
+  };
+}
 
 type ApiHost = 'staging' | 'production' | string;
 
@@ -67,6 +79,7 @@ export async function getOffers(sku: string): Promise<OffersData | null> {
         'Accept': '*/*',
         'Content-Type': 'application/json',
         'X-Api-Key': apiKey,
+        ...getClientHeaders(),
       },
     });
 
