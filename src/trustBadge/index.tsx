@@ -22,7 +22,6 @@ import { getClaimIcons } from '../utils';
 import ErrorBoundary from '../ErrorBoundary';
 
 type TrustBadgeProps = {
-  bundleId: string;
   sku: string;
   onPress?: () => void;
   overlay?: boolean; // when false no default modal will be used, instead Client app needs to instantiate Bundle directly
@@ -41,7 +40,6 @@ export default function TrustBadge(props: TrustBadgeProps) {
 }
 
 const TrustBadgeComponent = ({
-  bundleId,
   sku,
   onPress,
   overlay = true,
@@ -133,7 +131,6 @@ const TrustBadgeComponent = ({
               >
                 {showWebview && (
                   <Bundle
-                    bundleId={bundleId}
                     sku={sku}
                     onResized={(newSize: number) => setContainerHeight(newSize)}
                     onModalShown={() =>

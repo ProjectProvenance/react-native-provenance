@@ -26,7 +26,6 @@ const handleShouldStartLoadWithRequest = (request: any) => {
 type Callback = () => void;
 type onResizedCallback = (newSize: number) => void;
 type BundleProps = {
-  bundleId: string;
   sku: string;
   colorScheme?: 'light' | 'dark';
   onModalShown?: Callback;
@@ -39,7 +38,6 @@ export const minModalHeight = 540;
 export const loadingHeight = 175;
 
 function BundleComponent({
-  bundleId,
   sku,
   onModalShown,
   onModalClosed,
@@ -54,7 +52,7 @@ function BundleComponent({
       <WebView
         ref={(r: any) => (webview.current = r)}
         source={{
-          uri: bundleUrl(bundleId, sku),
+          uri: bundleUrl(sku),
           // There's no way to unit test Webview. So uncomment the following lines to test manually
           // uri: 'https://wrongdomainlol.io',
           // uri: 'https://staging.provenance.org/webviews/123/123',
