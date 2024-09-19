@@ -5,7 +5,7 @@ import { TrustBadge } from '@provenance/react-native-provenance';
 
 import { Image, Pressable } from 'react-native';
 
-import { designs, defaultDesign } from './initialize';
+import { examples, defaultExample } from './initialize';
 import { OptionsSwitch } from './OptionsSwitch';
 
 const variants = {
@@ -14,17 +14,17 @@ const variants = {
 };
 
 export default function App() {
-  const [currentDesign, setCurrentDesign] =
-    React.useState<string>(defaultDesign);
-  const design = designs[currentDesign];
+  const [currentExample, setCurrentExample] =
+    React.useState<string>(defaultExample);
+  const example = examples[currentExample];
 
   const [currentVariant, setCurrentVariant] =
     React.useState<string>('ProofPoint');
 
-  if (!design) {
+  if (!example) {
     return (
       <Text>
-        No available design found. {currentDesign}. Check your .env file for
+        No available design found. {currentExample}. Check your .env file for
         correct bundles definitions.
       </Text>
     );
@@ -49,7 +49,7 @@ export default function App() {
         </View>
 
         <TrustBadge
-          sku={design.sku}
+          sku={example.sku}
           overlayHeight={'80%'}
           variant={currentVariant}
         />
@@ -72,10 +72,10 @@ export default function App() {
       <View style={styles.controlsContainer}>
         <View style={styles.controls}>
           <OptionsSwitch
-            label={'Bundle design'}
-            options={designs}
-            currentOption={currentDesign}
-            onChosen={setCurrentDesign}
+            label={'Example'}
+            options={examples}
+            currentOption={currentExample}
+            onChosen={setCurrentExample}
           />
 
           <OptionsSwitch
