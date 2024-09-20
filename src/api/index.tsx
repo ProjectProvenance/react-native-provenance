@@ -27,7 +27,7 @@ export function getClientHeaders() {
 type ApiHost = 'staging' | 'production' | string;
 
 type ConfigurationOptions = {
-  key: string;
+  apiKey: string;
   bundleId: string;
   apiHost?: ApiHost;
   onError?: OnErrorCallback;
@@ -35,7 +35,7 @@ type ConfigurationOptions = {
 
 export const configure = (options: ConfigurationOptions) => {
   try {
-    setApiKey(options.key);
+    setApiKey(options.apiKey);
     setBundleId(options.bundleId);
 
     if (options.apiHost) {
@@ -76,7 +76,7 @@ class ProvenanceConfigError extends Error {
 function setApiKey(key: string) {
   if (!key?.trim())
     throw new ProvenanceConfigError(
-      '"key" is missing. Please provide API key.'
+      '"apiKey" is missing in `configure` call. Please provide API key.'
     );
 
   apiKey = key;
@@ -85,7 +85,7 @@ function setApiKey(key: string) {
 function setBundleId(bundleIdValue: string) {
   if (!bundleIdValue?.trim())
     throw new ProvenanceConfigError(
-      '"bundleId" is missing. Please provide valid Bundle Id'
+      '"bundleId" is missing in `configure` call. Please provide valid Bundle Id'
     );
 
   bundleId = bundleIdValue;

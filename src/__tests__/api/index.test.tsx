@@ -10,7 +10,11 @@ global.console = {
 };
 
 const sampleApiKey = 'test-api-key';
-configure({ key: sampleApiKey, bundleId: 'a-bundle-id', apiHost: 'staging' });
+configure({
+  apiKey: sampleApiKey,
+  bundleId: 'a-bundle-id',
+  apiHost: 'staging',
+});
 
 describe('getOffers', () => {
   beforeEach(() => {

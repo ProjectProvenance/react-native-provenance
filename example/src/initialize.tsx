@@ -3,7 +3,7 @@ import { configure } from '@provenance/react-native-provenance';
 if (process.env.EXPO_PUBLIC_API_KEY && process.env.EXPO_PUBLIC_BUNDLE_ID) {
   configure({
     apiHost: process.env.EXPO_PUBLIC_API_HOST,
-    key: process.env.EXPO_PUBLIC_API_KEY,
+    apiKey: process.env.EXPO_PUBLIC_API_KEY,
     bundleId: process.env.EXPO_PUBLIC_BUNDLE_ID,
   });
 } else {

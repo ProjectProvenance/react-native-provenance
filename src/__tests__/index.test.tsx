@@ -21,7 +21,7 @@ global.console = {
 
 describe('TrustBadge', () => {
   configure({
-    key: 'test-api-key',
+    apiKey: 'test-api-key',
     bundleId: 'fakeBundleId',
     apiHost: 'staging',
   });
