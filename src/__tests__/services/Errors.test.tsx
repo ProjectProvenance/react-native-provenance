@@ -22,7 +22,7 @@ describe('Errors', () => {
   describe('when onError callback configured', () => {
     it('passes the error to the callback', () => {
       const onError = jest.fn();
-      configure({ onError, key: 'a-key' });
+      configure({ onError, key: 'a-key', bundleId: 'a-bundle' });
       Errors.handle(anError);
 
       expect(onError).toHaveBeenCalledWith(anError);
