@@ -51,6 +51,10 @@ export const configure = (options: ConfigurationOptions) => {
   }
 };
 
+export function isConfigured() {
+  return apiKey && apiKey !== '';
+}
+
 function setHost(apiHost: ApiHost) {
   if (apiHost === 'staging' || apiHost === 'production') {
     host = hosts[apiHost];
@@ -70,7 +74,7 @@ class ProvenanceConfigError extends Error {
 }
 
 function setApiKey(key: string) {
-  if (!key)
+  if (!key?.trim())
     throw new ProvenanceConfigError(
       '"key" is missing. Please provide API key.'
     );
@@ -79,7 +83,7 @@ function setApiKey(key: string) {
 }
 
 function setBundleId(bundleIdValue: string) {
-  if (!bundleIdValue)
+  if (!bundleIdValue?.trim())
     throw new ProvenanceConfigError(
       '"bundleId" is missing. Please provide valid Bundle Id'
     );
