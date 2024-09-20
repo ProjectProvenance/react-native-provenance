@@ -4,8 +4,8 @@ import { View, StyleSheet, Linking } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { bundleUrl, getClientHeaders } from '../api';
 import type { WebViewMessageEvent } from 'react-native-webview/lib/WebViewTypes';
-import ErrorBoundary from '../ErrorBoundary';
 import { webviewErrorHandler } from './webviewErrorHandler';
+import { Widget } from '../Widget';
 
 const handleShouldStartLoadWithRequest = (request: any) => {
   // Intercept URL loading
@@ -131,9 +131,9 @@ function BundleComponent({
 
 export function Bundle(props: BundleProps) {
   return (
-    <ErrorBoundary fallback="Something went wrong">
+    <Widget fallbackOnError="Something went wrong">
       <BundleComponent {...props} />
-    </ErrorBoundary>
+    </Widget>
   );
 }
 

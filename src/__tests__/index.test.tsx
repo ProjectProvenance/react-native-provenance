@@ -130,4 +130,19 @@ describe('TrustBadge', () => {
       );
     });
   });
+
+  describe('if was not configured', () => {
+    it('gently notifies developer', () => {
+      jest.spyOn(api, 'isConfigured').mockReturnValue(false);
+
+      expect(() => {
+        whenTrustBadgeRendered();
+      }).not.toThrow();
+
+      expect(screen.root).not.toHaveTextContent(/Sustainability claims/i);
+      expect(console.error).toHaveBeenCalledWith(
+        expect.stringContaining('[Provenance] Configuration missing')
+      );
+    });
+  });
 });

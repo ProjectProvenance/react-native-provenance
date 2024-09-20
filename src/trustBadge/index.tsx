@@ -19,7 +19,7 @@ import {
 import { ProofPoint } from './ProofPoint';
 import { useOffers } from '../hooks/useOffers';
 import { getClaimIcons } from '../utils';
-import ErrorBoundary from '../ErrorBoundary';
+import { Widget } from '../Widget';
 
 type TrustBadgeProps = {
   sku: string;
@@ -33,9 +33,9 @@ const supportedVariants = ['Tick', 'ProofPoint'];
 
 export default function TrustBadge(props: TrustBadgeProps) {
   return (
-    <ErrorBoundary>
+    <Widget>
       <TrustBadgeComponent {...props} />
-    </ErrorBoundary>
+    </Widget>
   );
 }
 
