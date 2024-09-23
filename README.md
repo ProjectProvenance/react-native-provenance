@@ -206,7 +206,7 @@ This callback is also called when Proof Point Details Modal is shown. This happe
 
 You should pass your function to `onResized` prop. It should take the `height` argument and adjust your overlay component so that Bundle have enough space to display the content.
 
-#### What if I need to add marging around the bundle?
+#### What if I need to add margin around the bundle?
 
 Just add it to the `getBundleLoadingHeight` and `height` in `onResized` callback. Let's say you want to have more space between head of your BottomSheet and from the bottom of the screen. You could do something like:
 
@@ -238,6 +238,24 @@ Just add it to the `getBundleLoadingHeight` and `height` in `onResized` callback
     // Add this callback which will be invoked after ProofPoint details modal shown. Give as much space as you like.
     onModalShown={() => bottomSheetRef.current?.snapToPosition('85%') }
   />
+```
+
+#### Error handling
+
+You may want to handle cases when HTTP request fails due to network issues or similar. For this you could register the `onError` callback when you call `configure`.
+
+```
+import { configure } from "@provenance/react-native-provenance";
+
+configure({
+  apiKey: process.env.EXPO_PUBLIC_API_KEY,
+  bundleId: process.env.EXPO_PUBLIC_BUNDLE_ID,
+  onError: (error: string|Error) => {
+    // your custom error handling logic here...
+    // report it to you error tracking software
+    // or hide the container components etc.
+  }
+});
 ```
 
 ## Contributing
