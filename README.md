@@ -14,22 +14,29 @@ Dependencies:
 Steps:
 
 1. Make sure `react-native-webview` is installed:
+
 ```sh
 npx expo install react-native-webview@^13.10.3
 ```
+
 2. Install the package:
+
 ```sh
 npm install @provenance/react-native-provenance --save
 ```
+
 The `--save` option is [important for autolinking](https://reactnative.dev/docs/linking-libraries-ios#automatic-linking).
 
 3. Run:
+
 ```sh
 npx expo run:android --no-build-cache
 ```
+
 to ensure native dependencies are linked.
 
 4. Run the app using:
+
 ```sh
 npx expo start
 ```
@@ -41,24 +48,43 @@ Note, despite the steps mention Expo, the expo is not necessary, vanilla react-n
 #### RNCWebView module could not be found
 
 Use developers build. First, run:
+
 ```sh
 npx expo run:android --no-build-cache
 ```
 
 After the error message disappears, you can start emulator with:
+
 ```sh
 npx expo run:android
 ```
+
 and switch between the build types from Expo CLI menu.
 
 ## Usage
 
 There are 2 ways how to integrate Provenance components:
 
-* The easiest one: by using our built in modal
-* Allows more customizations: by using Trust Badge and Bundle separately
+- The easiest one: by using our built in modal
+- Allows more customizations: by using Trust Badge and Bundle separately
 
-In both cases you will need `bundleId` and `productSku` - use the same values you may already received from our support team or from your retail website.
+In both cases you will need `apiKey`, `bundleId` and `productSku`.
+For `apiKey` and `bundleId` use the same values you may already received from our support team or request those.
+
+You must call `configure` before rendering the components.
+
+```
+import { configure } from "@provenance/react-native-provenance";
+
+configure({
+  apiKey: process.env.EXPO_PUBLIC_API_KEY,
+  bundleId: process.env.EXPO_PUBLIC_BUNDLE_ID,
+});
+```
+
+We recommend reading API_KEY value from the environment variable, like in example above if you use Expo.
+
+`productSku` is a unique identifier of a product, it is the same as on your retail website.
 
 ### Using our built in modal
 
@@ -78,7 +104,7 @@ export function ProductPage () {
         <ProductPrice>£1.99</ProductPrice>
         <Button>Add to Basket</Button>
 
-        <TrustBadge bundleId={bundleId} sku={productSku} />
+        <TrustBadge sku={productSku} />
 
         <ProductDescription>
             Indulge in the pure essence of nature with our premium organic apples.
@@ -126,7 +152,7 @@ export function ProductPage () {
         <ProductPrice>£1.99</ProductPrice>
         <Button>Add to Basket</Button>
 
-        <TrustBadge onPress={handleTrustBadgePress} overlay={false} bundleId={bundleId} sku={productSku} />
+        <TrustBadge onPress={handleTrustBadgePress} overlay={false} sku={productSku} />
 
         <ProductDescription>
             Indulge in the pure essence of nature with our premium organic apples.
@@ -149,7 +175,6 @@ export function ProductPage () {
                         }}
                     >
                         <Bundle
-                            bundleId={bundleId}
                             sku={productSku}
                             onResized={(newSize: number) => {
                                 setBundleContainerHeight(newSize);
@@ -218,7 +243,6 @@ Just add it to the `getBundleLoadingHeight` and `height` in `onResized` callback
 ## Contributing
 
 See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
-
 
 ---
 
