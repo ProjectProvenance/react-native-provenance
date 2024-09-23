@@ -3,7 +3,9 @@
 Library to add [Provenance](https://provenance.org) experiences into your mobile applications to validate sustainability credentials of products you sell.
 
 The package provides Trust Badge and Bundle components. Both are meant to be shown on your product page. Trust Badge as a quick indication that a product
-has sustainability claims. Buyers can click on it to further see details in the Bundle component.
+has sustainability claims. Shoppers can click on it to further see details in the Bundle component.
+
+The trust badge can be in 2 variants. `Tick` or `ProofPoint`.
 
 ## Installation
 
@@ -63,12 +65,14 @@ and switch between the build types from Expo CLI menu.
 
 ## Usage
 
-There are 2 ways how to integrate Provenance components:
+In order to use the provided components you need to:
 
-- The easiest one: by using our built in modal
-- Allows more customizations: by using Trust Badge and Bundle separately
+1. Configure the library
+2. Render the components
 
-In both cases you will need `apiKey`, `bundleId` and `productSku`.
+### Configuring the library
+
+You will need `apiKey`, `bundleId` and `productSku`.
 For `apiKey` and `bundleId` use the same values you may already received from our support team or request those.
 
 You must call `configure` before rendering the components.
@@ -83,8 +87,31 @@ configure({
 ```
 
 We recommend reading API_KEY value from the environment variable, like in example above if you use Expo.
+`productSku` is a unique identifier of a product, it is the same as on your retail website. It will be needed upon rendering the components.
 
-`productSku` is a unique identifier of a product, it is the same as on your retail website.
+### Rendering Trust Badge
+
+Trust Badge requires `productSku` property to display relevant claims for the product.
+You can choose between 2 supported TrustBadge variants by passing an optional property `variant` any of the following values `Tick` OR `ProofPoint`.
+
+This code will render default `Tick` variant with built in modal.
+
+```
+<TrustBadge sku={productSku} />
+```
+
+If you want `ProofPoint` variant use this snippet:
+
+```
+<TrustBadge sku={productSku} variant="ProofPoint" />
+```
+
+`ProofPoint` variant shows the relevant claims icons on the TrustBadge.
+
+There are 2 ways how to integrate Provenance components:
+
+- The easiest one: by using our built in modal
+- Allows more customizations: by using Trust Badge and Bundle separately
 
 ### Using our built in modal
 
@@ -240,7 +267,7 @@ Just add it to the `getBundleLoadingHeight` and `height` in `onResized` callback
   />
 ```
 
-#### Error handling
+### Error handling
 
 You may want to handle cases when HTTP request fails due to network issues or similar. For this you could register the `onError` callback when you call `configure`.
 
