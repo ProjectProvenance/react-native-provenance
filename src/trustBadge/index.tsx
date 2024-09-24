@@ -20,6 +20,7 @@ import { ProofPoint } from './ProofPoint';
 import { useOffers } from '../hooks/useOffers';
 import { getClaimIcons } from '../utils';
 import { Widget } from '../Widget';
+import { scaled } from '../utils/scaling';
 
 type TrustBadgeProps = {
   sku: string;
@@ -107,7 +108,7 @@ const TrustBadgeComponent = ({
     return <></>;
 
   return (
-    <View style={{ flexBasis: trustBadgeHeight }}>
+    <View style={{ flexBasis: scaled(trustBadgeHeight) }}>
       <View style={styles.flex}>
         <TouchableOpacity onPress={handleTrustBadgePress}>
           {variant === 'Tick' ? (
