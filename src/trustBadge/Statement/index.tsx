@@ -1,3 +1,4 @@
+import { maxScale } from '../../utils/scaling';
 import React, { type FC, type ReactNode } from 'react';
 import {
   View,
@@ -7,7 +8,7 @@ import {
   type TextStyle,
 } from 'react-native';
 
-const maxFontSizeMultiplier = 1.35;
+const maxFontSizeMultiplier = maxScale;
 
 type StatementProps = {
   beforeCompanyName?: ReactNode;
@@ -46,11 +47,7 @@ const StatementText: FC<{
   style?: StyleProp<TextStyle>;
 }> = ({ children, style }) => {
   return (
-    <Text
-      maxFontSizeMultiplier={maxFontSizeMultiplier}
-      allowFontScaling={false}
-      style={style}
-    >
+    <Text maxFontSizeMultiplier={maxFontSizeMultiplier} style={style}>
       {children}
     </Text>
   );
@@ -64,8 +61,7 @@ const styles = StyleSheet.create({
   },
   contentText: {
     //fontFamily: 'DM Sans',
-    // @FIXME: Should be 12, but then it's too small
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: '700',
     lineHeight: 15,
     textAlign: 'left',
@@ -79,8 +75,7 @@ const styles = StyleSheet.create({
   },
   contentProvenanceLogo: {
     textTransform: 'uppercase',
-    // @FIXME: Should be 8
-    fontSize: 9,
+    fontSize: 8,
     color: '#686868',
     letterSpacing: 3,
   },
