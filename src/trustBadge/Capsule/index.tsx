@@ -1,6 +1,6 @@
 import React, { type FC, type ReactNode } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { scaled } from '../../utils/scaling';
+import { useScaled } from '../../hooks/useScaled';
 
 export const defaultHeight = 32;
 
@@ -8,6 +8,8 @@ export const Capsule: FC<{ children: ReactNode; height?: number }> = ({
   children,
   height = defaultHeight,
 }) => {
+  const { scaled } = useScaled();
+
   return (
     <View style={styles.container}>
       <View

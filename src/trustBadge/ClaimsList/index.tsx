@@ -8,7 +8,8 @@ import {
 } from 'react-native';
 
 import { ofSize } from '../../utils';
-import { maxScale, scaled } from '../../utils/scaling';
+import { maxScale } from '../../utils/scaling';
+import { useScaled } from '../../hooks/useScaled';
 
 const logoImage = require('./img/logo.png');
 
@@ -21,6 +22,8 @@ type ClaimsListProps = {
 };
 
 export function ClaimsList({ claimsIcons }: ClaimsListProps) {
+  const { scaled } = useScaled();
+
   const showableIcons = claimsIcons.filter(
     (v) => v.startsWith('http://') || v.startsWith('https://')
   );
@@ -41,8 +44,21 @@ export function ClaimsList({ claimsIcons }: ClaimsListProps) {
   }
 
   return (
-    <View style={{ ...styles.container, width }} testID="ClaimsListContainer">
-      <View style={styles.claimsList}>
+    <View
+      style={{
+        ...styles.container,
+        width,
+        height: scaled(styles.container.height),
+      }}
+      testID="ClaimsListContainer"
+    >
+      <View
+        style={{
+          ...styles.claimsList,
+          minWidth: scaled(styles.claimsList.minWidth),
+          maxWidth: scaled(styles.claimsList.maxWidth),
+        }}
+      >
         {iconsToShow.length === 0 && (
           <Icon
             index={0}
@@ -68,8 +84,13 @@ type IconPorps = {
 };
 
 function Icon({ index, image, accessibilityLabel = 'Claim icon' }: IconPorps) {
+  const { scaled } = useScaled();
+
   const imageProps: any = {
-    style: styles.image,
+    style: {
+      ...styles.image,
+      borderRadius: ofSize(scaled(iconSize)).borderRadius,
+    },
   };
   if (typeof image === 'string') {
     imageProps.src = image;
@@ -79,10 +100,12 @@ function Icon({ index, image, accessibilityLabel = 'Claim icon' }: IconPorps) {
 
   return (
     <View
-      style={StyleSheet.compose(styles.icon, {
+      style={{
+        ...styles.icon,
         zIndex: 4 - index,
         marginLeft: index > 0 ? -scaled(iconOverlap) : 0,
-      })}
+        ...ofSize(scaled(iconSize)),
+      }}
     >
       <Image {...imageProps} accessibilityLabel={accessibilityLabel} />
     </View>
@@ -94,11 +117,15 @@ type ClaimsToSeeProps = {
 };
 
 function ClaimsToSee({ amount }: ClaimsToSeeProps) {
+  const { scaled } = useScaled();
+
   return (
     <View
-      style={StyleSheet.compose(styles.icon, {
+      style={{
+        ...styles.icon,
         marginLeft: -scaled(iconOverlap),
-      })}
+        ...ofSize(scaled(iconSize)),
+      }}
     >
       <Text
         style={styles.claimsToSeeAmount}
@@ -114,8 +141,8 @@ function ClaimsToSee({ amount }: ClaimsToSeeProps) {
 const fixCapsulePadding = -3;
 const styles = StyleSheet.create({
   container: {
-    width: scaled(iconSize),
-    height: scaled(iconSize),
+    width: iconSize,
+    height: iconSize,
     marginLeft: fixCapsulePadding,
     marginRight: fixCapsulePadding,
   },
@@ -124,21 +151,21 @@ const styles = StyleSheet.create({
     flexGrow: 0,
     flexShrink: 0,
     minWidth: iconSize,
-    maxWidth: scaled(80),
+    maxWidth: 80,
     flexDirection: 'row',
   },
   icon: {
     borderWidth: borderWidth,
     borderColor: '#EDEDED',
     backgroundColor: '#FFFFFF',
-    ...ofSize(scaled(iconSize)),
+    ...ofSize(iconSize),
     justifyContent: 'center',
   },
   image: {
     width: '100%',
     height: '100%',
     overflow: 'hidden',
-    borderRadius: ofSize(scaled(iconSize)).borderRadius,
+    borderRadius: ofSize(iconSize).borderRadius,
   },
   claimsToSeeAmount: {
     fontSize: 14,

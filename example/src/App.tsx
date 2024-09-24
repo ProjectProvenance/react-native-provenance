@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, useWindowDimensions } from 'react-native';
 import { TrustBadge } from '@provenance/react-native-provenance';
 
 import { Image, Pressable } from 'react-native';
@@ -20,6 +20,8 @@ export default function App() {
 
   const [currentVariant, setCurrentVariant] =
     React.useState<string>('ProofPoint');
+
+  const { fontScale } = useWindowDimensions();
 
   if (!example) {
     return (
@@ -71,19 +73,29 @@ export default function App() {
 
       <View style={styles.controlsContainer}>
         <View style={styles.controls}>
-          <OptionsSwitch
-            label={'Example'}
-            options={examples}
-            currentOption={currentExample}
-            onChosen={setCurrentExample}
-          />
+          <View style={styles.row}>
+            <Text style={styles.controlsText}>
+              Font scale: {fontScale.toFixed(3)}
+            </Text>
+          </View>
 
-          <OptionsSwitch
-            label={'Variant'}
-            options={variants}
-            currentOption={currentVariant}
-            onChosen={setCurrentVariant}
-          />
+          <View style={styles.row}>
+            <OptionsSwitch
+              label={'Example'}
+              options={examples}
+              currentOption={currentExample}
+              onChosen={setCurrentExample}
+            />
+          </View>
+
+          <View style={styles.row}>
+            <OptionsSwitch
+              label={'Variant'}
+              options={variants}
+              currentOption={currentVariant}
+              onChosen={setCurrentVariant}
+            />
+          </View>
         </View>
       </View>
     </View>
@@ -140,14 +152,24 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
+    backgroundColor: '#fdfdfd',
   },
   controls: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: 'column',
     flexWrap: 'wrap',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     padding: 20,
     borderTopColor: 'lightgray',
     borderTopWidth: 1,
+  },
+  controlsText: {
+    color: 'lightgray',
+  },
+  row: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
   },
 });
