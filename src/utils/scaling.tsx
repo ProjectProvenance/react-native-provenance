@@ -8,5 +8,5 @@ const fontScale = (currentScale?: number) =>
     minScale
   );
 
-export const scaled = (dimention: number, currentScale?: number) =>
-  PixelRatio.roundToNearestPixel(fontScale(currentScale) * dimention);
+export const scaled = (dimension: number, currentScale?: number) =>
+  PixelRatio.roundToNearestPixel(fontScale(currentScale) * dimension);
