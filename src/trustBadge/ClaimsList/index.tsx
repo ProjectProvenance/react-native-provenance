@@ -8,6 +8,8 @@ import {
 } from 'react-native';
 
 import { ofSize } from '../../utils';
+import { maxScale } from '../../utils/scaling';
+import { useScaled } from '../../hooks/useScaled';
 
 const logoImage = require('./img/logo.png');
 
@@ -20,6 +22,8 @@ type ClaimsListProps = {
 };
 
 export function ClaimsList({ claimsIcons }: ClaimsListProps) {
+  const { scaled } = useScaled();
+
   const showableIcons = claimsIcons.filter(
     (v) => v.startsWith('http://') || v.startsWith('https://')
   );
@@ -30,18 +34,31 @@ export function ClaimsList({ claimsIcons }: ClaimsListProps) {
   const iconsToShow = showableIcons.slice(0, maxIconsToShow);
   const iconsNotShown = claimsIcons.length - iconsToShow.length;
 
-  let width = iconSize;
+  let width = scaled(iconSize);
   let placesToShow = 0;
   if (iconsNotShown > 0) placesToShow++;
   if (iconsToShow.length === 0) placesToShow++;
   placesToShow = Math.min(3, placesToShow + iconsToShow.length);
   if (placesToShow > 1) {
-    width = iconSize + (iconSize - iconOverlap) * (placesToShow - 1);
+    width = scaled(iconSize + (iconSize - iconOverlap) * (placesToShow - 1));
   }
 
   return (
-    <View style={{ ...styles.container, width }} testID="ClaimsListContainer">
-      <View style={styles.claimsList}>
+    <View
+      style={{
+        ...styles.container,
+        width,
+        height: scaled(styles.container.height),
+      }}
+      testID="ClaimsListContainer"
+    >
+      <View
+        style={{
+          ...styles.claimsList,
+          minWidth: scaled(styles.claimsList.minWidth),
+          maxWidth: scaled(styles.claimsList.maxWidth),
+        }}
+      >
         {iconsToShow.length === 0 && (
           <Icon
             index={0}
@@ -67,8 +84,13 @@ type IconPorps = {
 };
 
 function Icon({ index, image, accessibilityLabel = 'Claim icon' }: IconPorps) {
+  const { scaled } = useScaled();
+
   const imageProps: any = {
-    style: styles.image,
+    style: {
+      ...styles.image,
+      borderRadius: ofSize(scaled(iconSize)).borderRadius,
+    },
   };
   if (typeof image === 'string') {
     imageProps.src = image;
@@ -78,10 +100,12 @@ function Icon({ index, image, accessibilityLabel = 'Claim icon' }: IconPorps) {
 
   return (
     <View
-      style={StyleSheet.compose(styles.icon, {
+      style={{
+        ...styles.icon,
         zIndex: 4 - index,
-        marginLeft: index > 0 ? -iconOverlap : 0,
-      })}
+        marginLeft: index > 0 ? -scaled(iconOverlap) : 0,
+        ...ofSize(scaled(iconSize)),
+      }}
     >
       <Image {...imageProps} accessibilityLabel={accessibilityLabel} />
     </View>
@@ -93,11 +117,19 @@ type ClaimsToSeeProps = {
 };
 
 function ClaimsToSee({ amount }: ClaimsToSeeProps) {
+  const { scaled } = useScaled();
+
   return (
-    <View style={StyleSheet.compose(styles.icon, { marginLeft: -iconOverlap })}>
+    <View
+      style={{
+        ...styles.icon,
+        marginLeft: -scaled(iconOverlap),
+        ...ofSize(scaled(iconSize)),
+      }}
+    >
       <Text
         style={styles.claimsToSeeAmount}
-        allowFontScaling={false}
+        maxFontSizeMultiplier={maxScale}
         accessibilityLabel="More claims"
       >
         +{amount}

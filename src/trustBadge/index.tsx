@@ -20,6 +20,7 @@ import { ProofPoint } from './ProofPoint';
 import { useOffers } from '../hooks/useOffers';
 import { getClaimIcons } from '../utils';
 import { Widget } from '../Widget';
+import { useScaled } from '../hooks/useScaled';
 
 type TrustBadgeProps = {
   sku: string;
@@ -48,6 +49,7 @@ const TrustBadgeComponent = ({
 }: TrustBadgeProps) => {
   const [showWebview, setShowWebview] = React.useState(false);
   const { height } = useWindowDimensions();
+  const { scaled } = useScaled();
 
   if (typeof overlayHeight === 'string') {
     if (!overlayHeight.match(/\d{1,3}%/))
@@ -107,7 +109,7 @@ const TrustBadgeComponent = ({
     return <></>;
 
   return (
-    <View style={{ flexBasis: trustBadgeHeight }}>
+    <View style={{ flexBasis: scaled(trustBadgeHeight) }}>
       <View style={styles.flex}>
         <TouchableOpacity onPress={handleTrustBadgePress}>
           {variant === 'Tick' ? (

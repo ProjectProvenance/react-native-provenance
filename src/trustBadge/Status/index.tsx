@@ -2,9 +2,11 @@ import React from 'react';
 import { View, StyleSheet, Image } from 'react-native';
 
 import { ofSize } from '../../utils';
+import { useScaled } from '../../hooks/useScaled';
 
 export function Status({ size = 24 }: { size?: number }) {
-  const sizeProps = ofSize(size);
+  const { scaled } = useScaled();
+  const sizeProps = ofSize(scaled(size));
   const tick = StyleSheet.compose(styles.tick, sizeProps);
 
   return (

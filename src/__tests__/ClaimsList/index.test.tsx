@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react-native';
 import { ClaimsList } from '@src/trustBadge/ClaimsList';
 import React from 'react';
+import * as useScaledHooks from '@src/hooks/useScaled';
 
 const validImageUrl = (number: number) => `https://cdn.io/img${number}`;
 
@@ -8,6 +9,10 @@ const image1 = validImageUrl(1);
 const image2 = validImageUrl(2);
 const image3 = validImageUrl(3);
 const image4 = validImageUrl(4);
+
+jest
+  .spyOn(useScaledHooks, 'useScaled')
+  .mockReturnValue({ scaled: (dimension) => dimension });
 
 describe('with empty claimsIcons', () => {
   it('shows provenance logo only', () => {
@@ -128,6 +133,20 @@ describe('with unsupported icons', () => {
       expect(screen.queryAllByLabelText('More claims')).toHaveLength(1);
       expect(screen.queryAllByLabelText('Provenance logo')).toHaveLength(0);
       expect(screen.getByTestId('ClaimsListContainer')).toHaveTextContent('+1');
+    });
+  });
+
+  describe('when font scale increased', () => {
+    it('calculates the dimensions properly', () => {
+      jest
+        .spyOn(useScaledHooks, 'useScaled')
+        .mockReturnValue({ scaled: (dimension) => dimension * 2 });
+
+      render(<ClaimsList claimsIcons={[]} />);
+
+      expect(screen.getByTestId('ClaimsListContainer').props.style).toEqual(
+        expect.objectContaining({ width: 68 })
+      );
     });
   });
 });
