@@ -48,15 +48,16 @@ function BundleComponent({
     React.useState(loadingHeight);
   const webview = React.useRef<WebView | null>(null);
 
-  const normalizedScale = Math.max(Math.min(fontScale, 1.3), 1.0);
+  const normalizedScale = Math.max(Math.min(fontScale, 1.25), 1.0);
+  const scalingStatement = `document.body.style.zoom = ${normalizedScale};`;
   React.useEffect(() => {
     if (webview.current) {
       webview.current.injectJavaScript(`
-        document.body.style.zoom = ${normalizedScale};
+        ${scalingStatement}
         true;
       `);
     }
-  }, [normalizedScale]);
+  }, [scalingStatement]);
 
   return (
     <View style={styles.webViewContainer}>
@@ -74,6 +75,9 @@ function BundleComponent({
         style={{ flex: 1 }}
         startInLoadingState={true}
         nestedScrollEnabled={true}
+        scalesPageToFit={false}
+        setBuiltInZoomControls={false}
+        textZoom={100}
         onError={webviewErrorHandler('WebViewErrorEvent')}
         onHttpError={webviewErrorHandler('WebViewHttpErrorEvent')}
         onRenderProcessGone={webviewErrorHandler(
@@ -82,7 +86,7 @@ function BundleComponent({
         injectedJavaScript={`
           window.ReactNativeWebView.postMessage("JS injected");
 
-          document.body.style.zoom = ${normalizedScale};
+          ${scalingStatement}
 
           const selectors = {
             modal: '#provenance-modal',
