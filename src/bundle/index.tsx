@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { View, StyleSheet, Linking } from 'react-native';
+import { View, StyleSheet, Linking, useWindowDimensions } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { bundleUrl, getClientHeaders } from '../api';
 import type { WebViewMessageEvent } from 'react-native-webview/lib/WebViewTypes';
@@ -43,9 +43,20 @@ function BundleComponent({
   onModalClosed,
   onResized,
 }: BundleProps) {
+  const { fontScale } = useWindowDimensions();
   const [proofPointsHeight, setProofPointsHeight] =
     React.useState(loadingHeight);
   const webview = React.useRef<WebView | null>(null);
+
+  const normalizedScale = Math.max(Math.min(fontScale, 1.3), 1.0);
+  React.useEffect(() => {
+    if (webview.current) {
+      webview.current.injectJavaScript(`
+        document.body.style.zoom = ${normalizedScale};
+        true;
+      `);
+    }
+  }, [normalizedScale]);
 
   return (
     <View style={styles.webViewContainer}>
@@ -70,6 +81,8 @@ function BundleComponent({
         )}
         injectedJavaScript={`
           window.ReactNativeWebView.postMessage("JS injected");
+
+          document.body.style.zoom = ${normalizedScale};
 
           const selectors = {
             modal: '#provenance-modal',
@@ -118,7 +131,7 @@ function BundleComponent({
             message.startsWith('bundleResized') &&
             (newBundleSize = message.split(': ')[1])
           ) {
-            const newHeight = parseInt(newBundleSize, 10);
+            const newHeight = parseInt(newBundleSize, 10) * normalizedScale;
             setProofPointsHeight(newHeight);
             if (onResized) onResized(newHeight);
           }
