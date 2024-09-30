@@ -93,7 +93,7 @@ function Icon({ index, image, accessibilityLabel = 'Claim icon' }: IconPorps) {
     },
   };
   if (typeof image === 'string') {
-    imageProps.src = image;
+    imageProps.source = { uri: image };
   } else {
     imageProps.source = image;
   }
