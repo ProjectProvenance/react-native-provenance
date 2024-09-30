@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { View, StyleSheet, Linking } from 'react-native';
+import { View, StyleSheet, Linking, useWindowDimensions } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { bundleUrl, getClientHeaders } from '../api';
 import type { WebViewMessageEvent } from 'react-native-webview/lib/WebViewTypes';
@@ -43,9 +43,21 @@ function BundleComponent({
   onModalClosed,
   onResized,
 }: BundleProps) {
+  const { fontScale } = useWindowDimensions();
   const [proofPointsHeight, setProofPointsHeight] =
     React.useState(loadingHeight);
   const webview = React.useRef<WebView | null>(null);
+
+  const normalizedScale = Math.max(Math.min(fontScale, 1.25), 1.0);
+  const scalingStatement = `document.body.style.zoom = ${normalizedScale};`;
+  React.useEffect(() => {
+    if (webview.current) {
+      webview.current.injectJavaScript(`
+        ${scalingStatement}
+        true;
+      `);
+    }
+  }, [scalingStatement]);
 
   return (
     <View style={styles.webViewContainer}>
@@ -63,6 +75,9 @@ function BundleComponent({
         style={{ flex: 1 }}
         startInLoadingState={true}
         nestedScrollEnabled={true}
+        scalesPageToFit={false}
+        setBuiltInZoomControls={false}
+        textZoom={100}
         onError={webviewErrorHandler('WebViewErrorEvent')}
         onHttpError={webviewErrorHandler('WebViewHttpErrorEvent')}
         onRenderProcessGone={webviewErrorHandler(
@@ -70,6 +85,8 @@ function BundleComponent({
         )}
         injectedJavaScript={`
           window.ReactNativeWebView.postMessage("JS injected");
+
+          ${scalingStatement}
 
           const selectors = {
             modal: '#provenance-modal',
@@ -118,7 +135,7 @@ function BundleComponent({
             message.startsWith('bundleResized') &&
             (newBundleSize = message.split(': ')[1])
           ) {
-            const newHeight = parseInt(newBundleSize, 10);
+            const newHeight = parseInt(newBundleSize, 10) * normalizedScale;
             setProofPointsHeight(newHeight);
             if (onResized) onResized(newHeight);
           }
