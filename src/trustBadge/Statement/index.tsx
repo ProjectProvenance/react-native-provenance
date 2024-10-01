@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    columnGap: 3,
+    gap: 3,
   },
   contentProvenanceLogo: {
     textTransform: 'uppercase',
