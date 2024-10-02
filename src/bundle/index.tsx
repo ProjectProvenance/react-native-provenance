@@ -49,15 +49,14 @@ function BundleComponent({
   const webview = React.useRef<WebView | null>(null);
 
   const normalizedScale = Math.max(Math.min(fontScale, 2.0), 1.0);
-  const maxModalZoom = 1.3;
-  const normalizedModalZoom =
-    normalizedScale > 1 ? maxModalZoom / normalizedScale : 'reset';
   const scalingStatement = `
     document.body.style.zoom = ${normalizedScale};
-    const style = document.createElement('style');
-    style.type = 'text/css';
-    style.appendChild(document.createTextNode('.ProvenanceModal { zoom: ${normalizedModalZoom}; }'));
-    document.head.appendChild(style);
+    const zoomedIn = 'narrow';
+    if(document.body.offsetWidth <= 300) {
+      document.body.classList.add(zoomedIn);
+    } else {
+      document.body.classList.remove(zoomedIn);
+    }
   `;
   React.useEffect(() => {
     if (webview.current) {
