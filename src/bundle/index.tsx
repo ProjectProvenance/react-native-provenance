@@ -50,9 +50,9 @@ function BundleComponent({
 
   const normalizedScale = Math.max(Math.min(fontScale, 2.0), 1.0);
   const scalingStatement = `
-    document.body.style.zoom = ${normalizedScale};
+    document.documentElement.style.fontSize = ${normalizedScale} * 16 + 'px';
     const zoomedIn = 'narrow';
-    if(document.body.offsetWidth <= 300) {
+    if(${normalizedScale} > 1.4) {
       document.body.classList.add(zoomedIn);
     } else {
       document.body.classList.remove(zoomedIn);
@@ -143,7 +143,7 @@ function BundleComponent({
             message.startsWith('bundleResized') &&
             (newBundleSize = message.split(': ')[1])
           ) {
-            const newHeight = parseInt(newBundleSize, 10) * normalizedScale;
+            const newHeight = parseInt(newBundleSize, 10);
             setProofPointsHeight(newHeight);
             if (onResized) onResized(newHeight);
           }
