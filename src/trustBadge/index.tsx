@@ -111,13 +111,21 @@ const TrustBadgeComponent = ({
   return (
     <View style={{ flexBasis: scaled(trustBadgeHeight) }}>
       <View style={styles.flex}>
-        <TouchableOpacity onPress={handleTrustBadgePress}>
-          {variant === 'Tick' ? (
-            <Tick />
-          ) : (
-            <ProofPoint claimIcons={getClaimIcons(offers)} />
-          )}
-        </TouchableOpacity>
+        <View
+          style={styles.flex}
+          accessible={true}
+          accessibilityRole="button"
+          accessibilityLabel="Sustainability claims verified by Provenance"
+          accessibilityHint="Opens details"
+        >
+          <TouchableOpacity onPress={handleTrustBadgePress}>
+            {variant === 'Tick' ? (
+              <Tick />
+            ) : (
+              <ProofPoint claimIcons={getClaimIcons(offers)} />
+            )}
+          </TouchableOpacity>
+        </View>
 
         {overlay && (
           <Modal
