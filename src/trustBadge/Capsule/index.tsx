@@ -1,5 +1,5 @@
 import React, { type FC, type ReactNode } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import { useScaled } from '../../hooks/useScaled';
 
 export const defaultHeight = 32;
@@ -19,6 +19,7 @@ export const Capsule: FC<{ children: ReactNode; height?: number }> = ({
         })}
       >
         {children}
+        <Text style={styles.chevron}>›</Text>
       </View>
     </View>
   );
@@ -44,5 +45,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  chevron: {
+    color: '#0A3942',
+    fontSize: 26,
+    marginTop: -4,
+    paddingHorizontal: 4,
   },
 });
