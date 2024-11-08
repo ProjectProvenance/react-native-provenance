@@ -51,5 +51,6 @@ const styles = StyleSheet.create({
     fontSize: Platform.OS === 'ios' ? 24 : 14,
     marginTop: Platform.OS === 'ios' ? -4 : -8,
     paddingHorizontal: 4,
+    ...(Platform.OS === 'android' && { transform: 'scale(2)' }),
   },
 });
