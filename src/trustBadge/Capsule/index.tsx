@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   },
   chevron: {
     color: '#0A3942',
-    ...(Platform.OS === 'ios' && { fontSize: 24 }),
+    fontSize: Platform.OS === 'ios' ? 24 : 14,
     marginTop: Platform.OS === 'ios' ? -4 : -8,
     paddingHorizontal: 4,
   },
