@@ -1,5 +1,5 @@
 import React, { type FC, type ReactNode } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { Platform, View, StyleSheet, Text } from 'react-native';
 import { useScaled } from '../../hooks/useScaled';
 
 export const defaultHeight = 32;
@@ -48,8 +48,8 @@ const styles = StyleSheet.create({
   },
   chevron: {
     color: '#0A3942',
-    fontSize: 26,
-    marginTop: -4,
+    ...(Platform.OS === 'ios' && { fontSize: 24 }),
+    marginTop: Platform.OS === 'ios' ? -4 : -8,
     paddingHorizontal: 4,
   },
 });
