@@ -11,11 +11,7 @@ import {
   useWindowDimensions,
 } from 'react-native';
 import { Tick } from './Tick';
-import {
-  Bundle,
-  loadingHeight as bundleLoadingHeight,
-  minModalHeight,
-} from '../bundle';
+import { Bundle, loadingHeight as bundleLoadingHeight } from '../bundle';
 import { ProofPoint } from './ProofPoint';
 import { useOffers } from '../hooks/useOffers';
 import { getClaimIcons } from '../utils';
@@ -59,12 +55,6 @@ const TrustBadgeComponent = ({
 
     overlayHeight =
       (parseInt(overlayHeight.replace('%', ''), 10) / 100) * height;
-  }
-
-  if (overlayHeight && overlayHeight <= minModalHeight) {
-    throw new Error(
-      `The current value: ${overlayHeight} of overlayHeight is invalid. It should be bigger than ${minModalHeight}`
-    );
   }
 
   if (!supportedVariants.includes(variant))
