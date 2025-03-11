@@ -69,7 +69,7 @@ describe('getOffers', () => {
   });
 
   describe('when proof points were not found', () => {
-    it('is not shown', async () => {
+    it('returns the fetched data', async () => {
       global.fetch = jest.fn(() => ({
         ok: true,
         json: () => Promise.resolve(offersNoProofPoints()),
@@ -78,9 +78,6 @@ describe('getOffers', () => {
       const result = await getOffers('fakeSku');
 
       expect(result).toEqual(offersNoProofPoints());
-      expect(Errors.warn).toHaveBeenCalledWith(
-        expect.stringContaining('No proof points found for the SKU: fakeSku')
-      );
     });
   });
 });

@@ -95,8 +95,7 @@ const TrustBadgeComponent = ({
   const trustBadgeHeight =
     variant === 'Tick' ? Tick.getHeight() : ProofPoint.getHeight();
 
-  if (!offers || !offers.proofPoints || offers.proofPoints.length === 0)
-    return <></>;
+  if (!offers || !offers.proofPoints) return <></>;
 
   return (
     <View style={{ flexBasis: scaled(trustBadgeHeight) }}>

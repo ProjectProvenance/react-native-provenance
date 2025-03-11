@@ -83,14 +83,28 @@ describe('TrustBadge', () => {
   });
 
   describe('when proof points were not found', () => {
-    it('is not shown', async () => {
-      whenTrustBadgeRendered();
+    describe('when Tick variant', () => {
+      it('is still shown as success response from API without proof points indicates there are brand proof points', async () => {
+        whenTrustBadgeRendered();
 
-      await act(() => {
-        getOffersPromiseResolve(offersNoProofPoints());
+        await act(() => {
+          getOffersPromiseResolve(offersNoProofPoints());
+        });
+
+        expect(screen.root).toHaveTextContent(/Sustainability claims/i);
       });
+    });
 
-      expect(screen.root).not.toHaveTextContent(/Sustainability claims/i);
+    describe('when ProofPoint variant', () => {
+      it('is still shown as success response from API without proof points indicates there are brand proof points', async () => {
+        whenTrustBadgeRendered('ProofPoint');
+
+        await act(() => {
+          getOffersPromiseResolve(offersNoProofPoints());
+        });
+
+        expect(screen.queryAllByLabelText('Provenance logo')).toHaveLength(1);
+      });
     });
 
     describe('when no offers', () => {

@@ -26,6 +26,7 @@ export const offersSuccess = () => ({
   ],
 });
 
+// This happens when product doesn't have any proof points but its brand has
 export const offersNoProofPoints = () => ({
   trustBadge: {
     backgroundColor: '#dedede',
