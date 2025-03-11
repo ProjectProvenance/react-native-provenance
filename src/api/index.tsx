@@ -122,11 +122,6 @@ export async function getOffers(sku: string): Promise<OffersData | null> {
         );
         return null;
       }
-      if (data.proofPoints.length === 0) {
-        Errors.warn(
-          `No proof points found for the SKU: ${sku}, it could be a valid case but better double check that the SKU is valid.`
-        );
-      }
       return data;
     } else {
       const message = await response.text();
