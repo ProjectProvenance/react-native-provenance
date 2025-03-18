@@ -84,7 +84,7 @@ const TrustBadgeComponent = ({
   React.useEffect(() => {
     if (showWebview) {
       Animated.timing(growAnim, {
-        toValue: containerHeight,
+        toValue: containerHeight + styles.modalContainer.paddingBottom,
         easing: Easing.ease,
         duration: 350,
         useNativeDriver: false,
@@ -158,6 +158,7 @@ const styles = StyleSheet.create({
   modalContainer: {
     height: bundleLoadingHeight,
     borderTopWidth: 1,
+    backgroundColor: 'white',
     borderColor: '#EDEDED',
     shadowColor: '#000',
     shadowOffset: {
@@ -167,5 +168,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 24,
     elevation: 3,
+    paddingBottom: 12,
   },
 });
